@@ -1,0 +1,67 @@
+.createBody {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.createCard{
+    height: 90vh;
+    width: 90vw;
+    background-color: transparent;
+    border: 2px solid #6e6b6b;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #6e6b6b;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.createContainer {
+  height: 80vh;
+  width: 80vw;
+  display: grid;
+  grid-template-columns: 20vw 20vw 20vw 20vw;
+}
+
+.createItem {
+  display: flex;
+  align-items: center;
+}
+
+.createInputFields{
+    border: 2px solid #6e6b6b;
+    outline: none;
+    background: #fff;
+    border-radius: 10px;
+    font-size: 16px;
+    color: #6e6b6b;
+    padding: 10px 45px 10px 5px;
+}
+
+.createBtnContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 400px;
+}
+
+.createBtn{
+    width: 50%;
+    height: 40px;
+    background: #fff;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,.1);
+    cursor: pointer;
+    color: #6e6b6b;
+    font-weight: 700;
+
+}
+
+.createSelect{
+    width: 250px;
+    cursor: pointer;
+}

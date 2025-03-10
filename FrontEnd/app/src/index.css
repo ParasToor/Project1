@@ -1,0 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  height: 100vh;
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+
+  /* background: linear-gradient(135deg, #446dff 20%, #3a72e9 50%, #68a0dd 80%); */
+
+
+  background: url('./components/Assets/pic3.jpeg');
+  background-size: cover;
+  background-position: center;
+  /* background: no-repeat; */
+}

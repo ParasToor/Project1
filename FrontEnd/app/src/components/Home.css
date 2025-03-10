@@ -1,0 +1,55 @@
+/* .homeBody {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.createPageBtn {
+  background-color: #fff;
+  border-radius: 50px;
+  border: none;
+  outline: none;
+  border-radius: 40px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+
+  padding: 20px 30px;
+  font-weight: 700;
+  color: #6e6b6b;
+}
+
+.updateBtn {
+  background-color: #fff;
+  border-radius: 50px;
+  border: none;
+  outline: none;
+  border-radius: 40px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+
+  padding: 20px 30px;
+  font-weight: 700;
+  color: #6e6b6b;
+}
+
+.homePageButtonsContainer {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+}
+
+.viewPageBtn {
+  background-color: #fff;
+  border-radius: 50px;
+  border: none;
+  outline: none;
+  border-radius: 40px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+
+  padding: 20px 30px;
+  font-weight: 700;
+  color: #6e6b6b;
+} */
