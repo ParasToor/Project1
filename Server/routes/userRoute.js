@@ -6,6 +6,10 @@ const { createHandler } = require("../controllers/create");
 const { viewHandler } = require("../controllers/view");
 const { updateHandler } = require("../controllers/update");
 const { verifyHandler } = require("../controllers/verify");
+const { createRoleHandler } = require("../controllers/createRole");
+const { viewRoleHandler } = require("../controllers/viewRole");
+const { updateRoleHandler } = require("../controllers/updateRole");
+const { deleteRoleHandler } = require("../controllers/deleteRole");
 
 var loginValidate = [
   check("userName").notEmpty().withMessage("Username is required"),
@@ -29,8 +33,12 @@ var loginValidate = [
 // post krna hai
 router.get("/login", loginValidate, loginHandler);
 router.post("/create", createHandler);
+router.post("/createRole", createRoleHandler);
 router.post("/verify", verifyHandler);
 router.get("/view", viewHandler);
+router.post("/viewRoles", viewRoleHandler);
 router.patch("/update", updateHandler);
+router.patch("/updateRoles", updateRoleHandler);
+router.delete("/deleteRoles", deleteRoleHandler);
 
 module.exports = router;

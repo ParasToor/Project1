@@ -9,6 +9,10 @@ import View from "./components/View";
 import Update from "./components/Update";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Wrapper from "./components/Wrapper";
+import CreateRole from "./components/CreateRole";
+import ViewRole from "./components/ViewRole";
+import UpdateRole from "./components/UpdateRole";
+import RoleWrapper from "./components/RoleWrapper";
 
 const router = createBrowserRouter([
   {
@@ -24,12 +28,30 @@ const router = createBrowserRouter([
         element: <View />,
       },
       {
-        path: "create",
+        path: "/create",
         element: <Create />,
       },
       {
-        path: "update/:id",
+        path: "/update/:id",
         element: <Update />,
+      },
+      {
+        path: "/roles",
+        element: <RoleWrapper />,
+        children: [
+          {
+            path: "/roles",
+            element: <ViewRole />,
+          },
+          {
+            path: "/roles/create",
+            element: <CreateRole />,
+          },
+          {
+            path: "/roles/update",
+            element: <UpdateRole />,
+          },
+        ],
       },
     ],
   },

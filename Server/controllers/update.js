@@ -38,6 +38,7 @@ exports.updateHandler = async (req, res) => {
       "query - ",
       `UPDATE config SET ${queryString}  WHERE id = '${id}';`
     );
+    
     const queryResult = await pool.query(
       `UPDATE config SET ${queryString}  WHERE id = '${id}';`
     );

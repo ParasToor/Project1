@@ -19,6 +19,10 @@ const View = () => {
     navigate("/login");
   };
 
+  const rolesHandler = ()=>{
+    navigate("/viewroles")
+  }
+
   const axiosCall = async () => {
     try {
       const apiData = await axios.get("http://localhost:8000/view");
@@ -45,6 +49,11 @@ const View = () => {
       <div className="homePageButtonsContainer">
         <button onClick={createPageHandler} className="createPageBtn">
           Create Page
+        </button>
+
+        <br />
+        <button onClick={rolesHandler} className="viewPageBtn">
+          Roles
         </button>
 
         <br />
