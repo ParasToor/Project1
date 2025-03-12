@@ -14,6 +14,10 @@ import ViewRole from "./components/ViewRole";
 import UpdateRole from "./components/UpdateRole";
 import RoleWrapper from "./components/RoleWrapper";
 import Home from "./components/Home";
+import ViewUser from "./components/ViewUser";
+import CreateUser from "./components/CreateUser";
+import UpdateUser from "./components/UpdateUser";
+import AccountWrapper from "./components/AccountWrapper";
 
 const router = createBrowserRouter([
   {
@@ -75,6 +79,21 @@ const router = createBrowserRouter([
           },
           {
             path: "/accounts",
+            element: <AccountWrapper/>,
+            children: [
+              { 
+                path: "", 
+                element: <ViewUser /> 
+              },
+              {
+                path: "create",
+                element: <CreateUser />,
+              },
+              {
+                path: "update/:id",
+                element: <UpdateUser/>,
+              },
+            ],
           },
         ],
       },

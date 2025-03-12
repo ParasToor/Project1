@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { MyContext } from "../MyContext";
 
 const CreateRole = () => {
+  const { token } = useContext(MyContext);
+
   // const {control , handleSubmit , setError,
   //     formSta
   // }
-
 
   const navigate = useNavigate();
 
@@ -23,6 +25,7 @@ const CreateRole = () => {
     try {
       const result = await axios.post("http://localhost:8000/createRole", {
         data,
+        headers: { Authorization: token },
       });
 
       console.log("Result from backEnd to create role - ", result);
@@ -56,6 +59,20 @@ const CreateRole = () => {
     { value: "Account Delete", label: "Account Delete" },
     { value: "Account Update", label: "Account Update" },
   ];
+
+  async function verifyFunction() {
+    try {
+      const verifyResult = await axios.post("http://localhost:8000/verify", {
+        headers: { Authorization: token },
+      });
+    } catch (err) {
+      console.log("Error in verifying in create Page - ", err);
+    }
+  }
+
+  useEffect(() => {
+    verifyFunction();
+  }, []);
 
   return (
     <>

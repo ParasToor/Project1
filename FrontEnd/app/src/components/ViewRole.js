@@ -1,18 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import { MyContext } from "../MyContext";
+import './View.css'
 const ViewRole = () => {
+  const {logout,token} = useContext(MyContext);
   const [rolesArray, setRolesArray] = useState([]);
   const [bool,setBool] = useState(true);
 
   const navigate = useNavigate();
 
+  const logoutHandler = () => {
+    logout();
+    navigate("/login");
+  };
+
   const axiosCall = async (req, res) => {
     try {
-      const apiData = await axios.post("http://localhost:8000/viewRoles");
+      const apiData = await axios.post("http://localhost:8000/viewRoles",{
+        headers: { Authorization: token },
+      });
 
-      console.log(apiData.data.data);
+      // console.log(apiData.data.data);
 
       setRolesArray(apiData.data.data);
     } catch (err) {
@@ -21,9 +30,9 @@ const ViewRole = () => {
   };
 
   function updateHandler(singleData) {
-    // console.log("singleData: ", singleData);
+    
 
-    navigate(`/updateroles`, { state: singleData });
+    navigate("/roles/update", { state: singleData });
   }
 
   async function deleteHandler(singleData) {
@@ -44,6 +53,7 @@ const ViewRole = () => {
     }
   }
 
+  
   useEffect(() => {
     axiosCall();
   },[bool]);
@@ -53,26 +63,32 @@ const ViewRole = () => {
   };
 
   return (
-    <div>
-      <div>
-        <button onClick={createRoleHandler}>Create a role</button>
+    <div className="viewBody">
+      <div className="homePageButtonsContainer">
+        <button onClick={createRoleHandler} className="createPageBtn">Create a role</button>
+        <br />
+        <button onClick={logoutHandler} className="viewPageBtn">
+          Log Out
+        </button> 
       </div>
       <table>
         <thead>
-          <tr>
+          <tr className="headingContainer">
             <th>Name</th>
             <th>Permissions</th>
-            <th>update</th>
+            <th>Actions</th>
           </tr>
         </thead>
-
+        <tbody>
         {rolesArray.length === 0 ? (
-          <h1>Loading ....</h1>
+          <tr>
+          <td colSpan="5">Loading...</td>
+        </tr>
         ) : (
-          <tbody>
-            {rolesArray.map((one, index) => (
-              <div key={index}>
-                <tr>
+         
+            rolesArray.map((one, index) => (
+              <tr key={index}>
+               
                   {/* <p>Name : </p> */}
                   <td>
                     {one.name}
@@ -80,21 +96,21 @@ const ViewRole = () => {
                   {/* <p>Permissions: </p> */}
                   <td>
                     {one.permissions.map((singlePermi, index) => (
-                      <div key={index}>{singlePermi}</div>
+                      <span key={index}>{singlePermi} ,</span>
                     ))}
                   </td>
-                  <td>
-                    <div>
-                      <button onClick={() => updateHandler(one)}>Update</button>
+                  <td style={{display:'flex'}}>
                     
-                      <button onClick={() => deleteHandler(one)}>Delete</button>
-                    </div>
+                      <button className="updateBtn" onClick={() => updateHandler(one)}>Update</button>
+                    
+                      <button className="updateBtn" onClick={() => deleteHandler(one)}>Delete</button>
+                    
                   </td>
-                </tr>
-              </div>
-            ))}
+              </tr>
+            ))
+          )}
           </tbody>
-        )}
+        
       </table>
     </div>
   );

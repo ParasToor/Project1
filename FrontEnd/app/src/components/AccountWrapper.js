@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import axios from "axios";
 import { MyContext } from "../MyContext";
 
-const RoleWrapper = () => {
+const AccountWrapper = () => {
   const { token } = useContext(MyContext);
 
   async function verifyFunction() {
@@ -27,4 +27,4 @@ const RoleWrapper = () => {
   );
 };
 
-export default RoleWrapper;
+export default AccountWrapper;

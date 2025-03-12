@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useCallback, useContext, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
 import axios from "axios";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { MyContext } from "../MyContext";
 
 const UpdateRole = () => {
+  const { token } = useContext(MyContext);
+
   const navigate = useNavigate();
 
   const location = useLocation();
@@ -27,6 +30,7 @@ const UpdateRole = () => {
       const updateRes = await axios.patch("http://localhost:8000/updateRoles", {
         id: prevData.id,
         newData,
+        headers: { Authorization: token },
       });
 
       navigate("/viewroles");
@@ -49,6 +53,20 @@ const UpdateRole = () => {
     { value: "AD", label: "Account Delete" },
     { value: "AU", label: "Account Update" },
   ];
+
+  async function verifyFunction() {
+    try {
+      const verifyResult = await axios.post("http://localhost:8000/verify", {
+        headers: { Authorization: token },
+      });
+    } catch (err) {
+      console.log("Error in verifying in create Page - ", err);
+    }
+  }
+
+  useEffect(() => {
+    verifyFunction();
+  }, []);
 
   return (
     <>

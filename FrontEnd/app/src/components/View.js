@@ -247,11 +247,11 @@ const View = () => {
         <div className="homePageButtonsContainer">
           {globalPermiArray.includes("Config Write") && (
             <button onClick={createPageHandler} className="createPageBtn">
-              Create Page
+              Create Configurations
             </button>
           )}
           <br />
-          <button onClick={logoutHandler} className="viewPageBtn">
+          <button onClick={logoutHandler} className="createPageBtn">
             Log Out
           </button>
         </div>
@@ -346,12 +346,18 @@ const View = () => {
                       <p>{singleData.db_password}</p>
                     </td>
                     {globalPermiArray.includes("Config Update") && (
-                      <td>
+                      <td style={{display:'flex'}}>
                         <button
                           className="updateBtn"
                           onClick={() => onUpdate(singleData)}
                         >
                           Update
+                        </button>
+                        <button
+                          className="updateBtn"
+                          onClick={() => onUpdate(singleData)}
+                        >
+                          Delete
                         </button>
                       </td>
                     )}

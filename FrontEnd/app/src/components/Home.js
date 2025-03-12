@@ -31,7 +31,7 @@ const Home = () => {
       <div className="sidebar">
         <ul className="itemList">
           {globalPermiArray.includes("Config Read") && (
-            <NavLink className="links" to="/config">
+            <NavLink className="links" to="/">
               Configurations
             </NavLink>
           )}
@@ -43,7 +43,7 @@ const Home = () => {
           )}
 
           {globalPermiArray.includes("Account Read") && (
-            <NavLink className="links">Accounts</NavLink>
+            <NavLink className="links" to="/accounts" >Accounts</NavLink>
           )}
         </ul>
       </div>

@@ -13,6 +13,19 @@ const { deleteRoleHandler } = require("../controllers/deleteRole");
 const { getPermiHandler } = require("../controllers/getPermi");
 const { verifyMiddleware } = require("../controllers/verifyMiddleware");
 
+
+//----------------------------Aman--------------------
+// const { fetchroleHandler }  = require("../controllers/fetchroleHandler");
+// const {createuserHandler} =require('../controllers/createuser');
+// const {viewUserHandler}=require('../controllers/viewUserHandler');
+// const { updateuser } = require("../controllers/updateUserHandler");
+// const { deleteuser } = require("../controllers/deleteUserHandler");
+const { fetchroleHandler } = require("../controllers/fetchroleHandler");
+const { createuserHandler } = require("../controllers/createuser");
+const { viewUserHandler } = require("../controllers/viewUserHandler");
+const { updateuser } = require("../controllers/updateUserHandler");
+const { deleteuser } = require("../controllers/deleteUserHandler");
+
 var loginValidate = [
   check("email").notEmpty().withMessage("Email is required"),
   // .isLength({ min: 3, max: 15 })
@@ -35,13 +48,22 @@ var loginValidate = [
 // post krna hai
 router.get("/login", loginValidate, loginHandler);
 router.post("/create",verifyMiddleware, createHandler);
-router.post("/createRole", createRoleHandler);
+router.post("/createRole",verifyMiddleware, createRoleHandler);
 router.post("/verify", verifyHandler);
 router.post("/getPermi", getPermiHandler);
 router.post("/view",verifyMiddleware ,viewHandler);
-router.post("/viewRoles", viewRoleHandler);
+router.post("/viewRoles",verifyMiddleware, viewRoleHandler);
 router.patch("/update",verifyMiddleware ,updateHandler);
-router.patch("/updateRoles", updateRoleHandler);
+router.patch("/updateRoles",verifyMiddleware, updateRoleHandler);
 router.delete("/deleteRoles", deleteRoleHandler);
+
+
+// -------------Aman-----------------------
+router.get("/fetchrole",fetchroleHandler);
+router.post('/createuser',createuserHandler);
+router.post('/viewUser',viewUserHandler);
+router.patch('/updateuser',updateuser);
+router.delete('/deleteuser/:id',deleteuser);
+
 
 module.exports = router;

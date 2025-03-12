@@ -5,13 +5,19 @@
 
 .homePageButtonsContainer {
   margin-bottom: 20px;
+  display: flex;justify-content: space-between;
+ 
 }
 
 .createPageBtn,
 .viewPageBtn {
   margin: 10px;
-  padding: 10px 20px;
+  padding: 10px ;
   cursor: pointer;
+  border: 1px rgb(46, 44, 44) solid;
+  border-radius: 7px;
+  box-sizing: border-box;
+  background-color: white;
 }
 
 .viewContainer {
@@ -41,7 +47,7 @@ th {
   border: 1px grey solid;
   cursor: pointer;
   box-sizing: border-box;
-  background-color: aqua;
+  background-color: rgb(251, 255, 255);
   
 }
 
