@@ -44,7 +44,7 @@ th {
   width: 80px;
   height:20px;
   margin: 5px;
-  border: 1px grey solid;
+  border: 1px rgb(44, 44, 44) solid;
   cursor: pointer;
   box-sizing: border-box;
   background-color: rgb(251, 255, 255);
