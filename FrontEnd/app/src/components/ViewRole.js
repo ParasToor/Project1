@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { MyContext } from "../MyContext";
 import './View.css'
 const ViewRole = () => {
-  const {logout,token} = useContext(MyContext);
+  const {logout,token , globalPermiArray} = useContext(MyContext);
   const [rolesArray, setRolesArray] = useState([]);
   const [bool,setBool] = useState(true);
 
@@ -65,7 +65,7 @@ const ViewRole = () => {
   return (
     <div className="viewBody">
       <div className="homePageButtonsContainer">
-        <button onClick={createRoleHandler} className="createPageBtn">Create a role</button>
+        { globalPermiArray.includes("Roles Write") && (<button onClick={createRoleHandler} className="createPageBtn">Create a role</button>)}
         <br />
         <button onClick={logoutHandler} className="viewPageBtn">
           Log Out
@@ -76,7 +76,7 @@ const ViewRole = () => {
           <tr className="headingContainer">
             <th>Name</th>
             <th>Permissions</th>
-            <th>Actions</th>
+            { globalPermiArray.includes("Roles Update" || "Roles Delete") && (<th>Actions</th>)}
           </tr>
         </thead>
         <tbody>
@@ -101,9 +101,9 @@ const ViewRole = () => {
                   </td>
                   <td style={{display:'flex'}}>
                     
-                      <button className="updateBtn" onClick={() => updateHandler(one)}>Update</button>
+                      { globalPermiArray.includes("Roles Update") && (<button className="updateBtn" onClick={() => updateHandler(one)}>Update</button>)}
                     
-                      <button className="updateBtn" onClick={() => deleteHandler(one)}>Delete</button>
+                      { globalPermiArray.includes("Roles Delete") && (<button className="updateBtn" onClick={() => deleteHandler(one)}>Delete</button>)}
                     
                   </td>
               </tr>

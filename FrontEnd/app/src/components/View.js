@@ -302,7 +302,7 @@ const View = () => {
                 <th>db_name</th>
                 <th>db_username</th>
                 <th>db_password</th>
-                {globalPermiArray.includes("Config Update") && <th>update</th>}
+                {globalPermiArray.includes("Config Update" || "Config Delete") && <th>Actions</th>}
               </tr>
             </thead>
             {array.length !== 0 && (
@@ -369,20 +369,20 @@ const View = () => {
                     <td>
                       <p>{singleData.db_password}</p>
                     </td>
-                    {globalPermiArray.includes("Config Update") && (
+                    {globalPermiArray.includes("Config Update" || "Config Delete") && (
                       <td style={{ display: "flex" }}>
-                        <button
+                        {globalPermiArray.includes("Config Update") && (<button
                           className="updateBtn"
                           onClick={() => onUpdate(singleData)}
                         >
                           Update
-                        </button>
-                        <button
+                        </button>)}
+                        { globalPermiArray.includes("Config Delete") && (<button
                           className="updateBtn"
                           onClick={() => onDelete(singleData)}
                         >
                           Delete
-                        </button>
+                        </button>)}
                       </td>
                     )}
                   </tr>

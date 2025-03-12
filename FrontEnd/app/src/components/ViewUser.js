@@ -7,7 +7,7 @@ import { MyContext } from "../MyContext";
 const ViewUser = () => {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
-  const { logout } = useContext(MyContext);
+  const { logout ,globalPermiArray } = useContext(MyContext);
 
   const createPageHandler = () => {
     navigate("/accounts/create");
@@ -52,9 +52,9 @@ const ViewUser = () => {
   return (
     <div className="viewBody">
       <div className="homePageButtonsContainer">
-        <button onClick={createPageHandler} className="createPageBtn">
+        {globalPermiArray.includes("Account Write") && (<button onClick={createPageHandler} className="createPageBtn">
           Create New User
-        </button>
+        </button>)}
         <br />
         <button onClick={logoutHandler} className="viewPageBtn">
           Log Out
@@ -67,7 +67,7 @@ const ViewUser = () => {
             <th>Email</th>
             <th>Role</th>
             <th>Permissions</th>
-            <th>Actions</th>
+            {globalPermiArray.includes("Account Update"||"Account Delete") && (<th>Actions</th>)}
            
           </tr>
         </thead>
@@ -87,14 +87,14 @@ const ViewUser = () => {
                     <span key={key}> {value.toString()} , </span>
                   ))}
                 </td>
-                <td style={{display:'flex'}}>
-                  <button className="updateBtn" onClick={() => onUpdate(user)}>
+                {globalPermiArray.includes("Account Update"||"Account Delete") && (<td style={{display:'flex'}}>
+                  {globalPermiArray.includes("Account Update") && (<button className="updateBtn" onClick={() => onUpdate(user)}>
                     Update
-                  </button>
-                  <button className="updateBtn" onClick={() => onDelete(user.id)}>
+                  </button>)}
+                  {globalPermiArray.includes("Account Delete") && (<button className="updateBtn" onClick={() => onDelete(user.id)}>
                     Delete
-                  </button>
-                </td>
+                  </button>)}
+                </td>)}
               </tr>
             ))
           )}
