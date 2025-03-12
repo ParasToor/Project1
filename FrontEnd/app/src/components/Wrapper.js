@@ -8,22 +8,20 @@ const Wrapper = () => {
 
   const { token } = useContext(MyContext);
 
-  const verifyFunction = async ()=>{
+  const verifyFunction = async () => {
     try {
       if (!token) {
         navigate("/login");
       }
 
       const verifyResult = await axios.post("http://localhost:8000/verify", {
-        token,
+        headers: { Authorization: token },
       });
-
-      console.log("data from back end call to verify - ", verifyResult);
+      
     } catch (err) {
-      console.log("Error in verifying - ", err);
       navigate("/login");
     }
-  }
+  };
 
   useEffect(() => {
     verifyFunction();

@@ -1,3 +1,66 @@
+.display{
+  width: 85%;
+}
+
+.homeBody {
+  display: flex;
+  /* gap: 10px; */
+}
+
+.sidebar {
+
+  border: 2px solid red;
+  height: 100vh;
+  width: 15%; 
+  position: sticky;
+  top: 0;
+  left: 0;
+}
+
+.itemList {
+  border: 2px solid red;
+  position: relative;
+  list-style: none;
+  padding: 0;
+  /* height: 88%; */
+  display: flex;
+  flex-direction: column;
+}
+
+/* .itemList li{
+  border: 2px solid green;
+  padding: 1rem;
+  margin: 8px;
+  border-radius: 5px;
+} */
+
+.itemList .links {
+  border: 2px solid green;
+  padding: 1rem;
+  margin: 0px 0px;
+  border-radius: 5px;
+  text-decoration: none;
+  color: black;
+  /* padding: 10px;
+  width: 100%;
+  height: 100%;
+  border: 2px solid red; */
+}
+.itemList .links:hover {
+  background-color: #4f4f4f58;
+  cursor: pointer;
+}
+
+
+
+.itemList .active {
+  background-color: #4f4f4f58;
+}
+
+/* .itemList .active{
+  background-color: #97969658;
+} */
+
 /* .homeBody {
   height: 100vh;
   width: 100%;

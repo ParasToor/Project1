@@ -6,6 +6,17 @@ export const MyContextProvider = ({children})=>{
     
     const [token ,setToken] = useState( localStorage.getItem("token") || null);
 
+    const [globalPermiArray,setGlobalPermiArray] = useState( localStorage.getItem("globalPermiArray") || []);
+
+    useEffect(()=>{
+        if(globalPermiArray.length !== 0 ){
+            localStorage.setItem("globalPermiArray",globalPermiArray);
+        }
+        else{
+            localStorage.removeItem("globalPermiArray");
+        }
+    },[globalPermiArray])
+
     useEffect(()=>{
         if(token){
             localStorage.setItem("token",token);
@@ -24,7 +35,7 @@ export const MyContextProvider = ({children})=>{
     }
 
     return (
-        <MyContext.Provider value={{token , login , logout}}>
+        <MyContext.Provider value={{token , login , logout , globalPermiArray , setGlobalPermiArray}}>
             {children}
         </MyContext.Provider>
     )

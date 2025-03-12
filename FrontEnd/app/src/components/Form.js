@@ -23,7 +23,7 @@ const Form = () => {
       console.log("Data i am sendiong - ", data);
       const apiData = await axios.get("http://localhost:8000/login", {
         params: {
-          userName: data.userName,
+          email: data.email,
           password: data.password,
         },
       });
@@ -61,7 +61,7 @@ const Form = () => {
       }
 
       const verifyResult = await axios.post("http://localhost:8000/verify", {
-        token,
+        headers: { Authorization: token },
       });
       console.log("data from back end call to verify - ", verifyResult);
       navigate("/");
@@ -82,23 +82,23 @@ const Form = () => {
           <h1>Log In</h1>
           <div className="input-box">
             <Controller
-              name="userName"
+              name="email"
               control={control}
               rules={{
-                required: "Username is required.",
+                required: "Email is required.",
               }}
               render={({ field }) => (
                 <input
                   type="text"
-                  placeholder="Username"
+                  placeholder="Email"
                   className="inputFields"
                   {...field}
                 />
               )}
             />
             <FaUser className="icon" />
-            {errors.userName && (
-              <p className="err-msg"> {errors.userName.message} </p>
+            {errors.email && (
+              <p className="err-msg"> {errors.email.message} </p>
             )}
           </div>
 

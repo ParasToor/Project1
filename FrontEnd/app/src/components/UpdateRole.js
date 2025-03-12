@@ -24,26 +24,30 @@ const UpdateRole = () => {
 
   const doUpdate = async (newData) => {
     try {
-      
       const updateRes = await axios.patch("http://localhost:8000/updateRoles", {
-        id:prevData.id,
+        id: prevData.id,
         newData,
       });
 
       navigate("/viewroles");
-
     } catch (err) {
-
       console.log("Error from backend on updating - ", err);
-
     }
   };
 
   const options = [
-    { value: "read", label: "Read" },
-    { value: "write", label: "Write" },
-    { value: "delete", label: "Delete" },
-    { value: "update", label: "Update" },
+    { value: "CR", label: "Config Read" },
+    { value: "CW", label: "Config Write" },
+    { value: "CD", label: "Config Delete" },
+    { value: "CU", label: "Config Update" },
+    { value: "RR", label: "Roles Read" },
+    { value: "RW", label: "Roles Write" },
+    { value: "RD", label: "Roles Delete" },
+    { value: "RU", label: "Roles Update" },
+    { value: "AR", label: "Account Read" },
+    { value: "AW", label: "Account Write" },
+    { value: "AD", label: "Account Delete" },
+    { value: "AU", label: "Account Update" },
   ];
 
   return (

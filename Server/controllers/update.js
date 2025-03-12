@@ -4,8 +4,6 @@ exports.updateHandler = async (req, res) => {
   try {
     const data = req.body.data;
     const id = req.body.id.id;
-    console.log("Data from front end on update request - ", data);
-    console.log("Id from front end on update request - ", id);
 
     const keysArray = Object.keys(data);
     if (keysArray.length === 0) {
@@ -15,30 +13,23 @@ exports.updateHandler = async (req, res) => {
       });
     }
 
-    console.log("Keys from front end on update request - ", keysArray);
-
-    // const udatedResponse = await pool.query(``);
-    // try {
-
     let queryString = "";
 
     keysArray.map((key) => {
-      // console.log("key - ",key);
-      // console.log("data of key - ",data[key]);
-      // const keyValue = data[key];
-      // console.log("id - ",id);
-
-      queryString = queryString.concat(key, "='", data[key], "' , ");
-      // console.log(queryString);
-      // queryString = queryString.concat(key,"=")
+      if(key === 'active'){
+        console.log("This is key - ",key,"  This is value - ",data[key]);
+      }
+      else{
+        queryString = queryString.concat(key, "='", data[key], "' , ");
+      }
     });
     queryString = queryString.substring(0, queryString.length - 2);
-    console.log("Final query String - ", queryString);
-    console.log(
-      "query - ",
-      `UPDATE config SET ${queryString}  WHERE id = '${id}';`
-    );
-    
+    // console.log("Final query String - ", queryString);
+    // console.log(
+    //   "query - ",
+    //   `UPDATE config SET ${queryString}  WHERE id = '${id}';`
+    // );
+
     const queryResult = await pool.query(
       `UPDATE config SET ${queryString}  WHERE id = '${id}';`
     );

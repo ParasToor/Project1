@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 import "./Update.css";
+import { MyContext } from "../MyContext";
 
 const Update = () => {
+
+  const {token} = useContext(MyContext);
+
   const navigate = useNavigate();
 
   const id = useParams();
@@ -39,16 +43,19 @@ const Update = () => {
   async function clickHandler(data) {
     try {
       console.log(data);
+
       const apiData = await axios.patch("http://localhost:8000/update", {
         id,
         data,
+        headers: { Authorization: token },
       });
 
       console.log("data from axios update call - ", apiData);
 
-      navigate("/view");
+      navigate("/");
+
     } catch (err) {
-      console.log("Error fropm axios create - ", err);
+      console.log("Error in update fropm axios Patch - ", err);
     }
   }
 
@@ -81,6 +88,21 @@ const Update = () => {
       active: `${prevData?.active || ""}`,
     },
   });
+
+  async function verifyFunction() {
+    try {
+      const verifyResult = await axios.post("http://localhost:8000/verify", {
+        headers: { Authorization: token },
+      });
+    } catch (err) {
+      console.log("Error in verifying in create Page - ", err);
+    }
+  }
+
+  useEffect(() => {
+    verifyFunction();
+  }, []);
+
 
   return (
     <div className="updateBody">

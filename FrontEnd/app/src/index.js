@@ -7,12 +7,13 @@ import Form from "./components/Form";
 import Create from "./components/Create";
 import View from "./components/View";
 import Update from "./components/Update";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import Wrapper from "./components/Wrapper";
 import CreateRole from "./components/CreateRole";
 import ViewRole from "./components/ViewRole";
 import UpdateRole from "./components/UpdateRole";
 import RoleWrapper from "./components/RoleWrapper";
+import Home from "./components/Home";
 
 const router = createBrowserRouter([
   {
@@ -25,31 +26,55 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <View />,
-      },
-      {
-        path: "/create",
-        element: <Create />,
-      },
-      {
-        path: "/update/:id",
-        element: <Update />,
-      },
-      {
-        path: "/roles",
-        element: <RoleWrapper />,
+        element: <Home />,
         children: [
           {
+            path: "/",
+            element: <Outlet />,
+            children: [
+              {
+                path: "/",
+                element: <View />,
+              },
+              {
+                path: "/config/create",
+                element: <Create />,
+              },
+              {
+                path: "/config/update/:id",
+                element: <Update />,
+              },
+              // children: [
+              //   {
+              //     path: "/view/create",
+              //     element: <Create />,
+              //   },
+              //   {
+              //     path: "/view/update/:id",
+              //     element: <Update />,
+              //   },
+            ],
+          },
+          {
             path: "/roles",
-            element: <ViewRole />,
+            element: <RoleWrapper />,
+            children: [
+              {
+                path: "",
+                element: <ViewRole />,
+              },
+              {
+                path: "create",
+                element: <CreateRole />,
+              },
+              {
+                path: "update",
+                element: <UpdateRole />,
+              },
+            ],
           },
           {
-            path: "/roles/create",
-            element: <CreateRole />,
-          },
-          {
-            path: "/roles/update",
-            element: <UpdateRole />,
+            path: "/accounts",
           },
         ],
       },

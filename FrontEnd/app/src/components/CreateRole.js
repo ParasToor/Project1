@@ -9,6 +9,7 @@ const CreateRole = () => {
   //     formSta
   // }
 
+
   const navigate = useNavigate();
 
   const {
@@ -42,10 +43,18 @@ const CreateRole = () => {
   };
 
   const options = [
-    { value: "read", label: "Read" },
-    { value: "write", label: "Write" },
-    { value: "delete", label: "Delete" },
-    { value: "update", label: "Update" },
+    { value: "Config Read", label: "Config Read" },
+    { value: "Config Write", label: "Config Write" },
+    { value: "Config Delete", label: "Config Delete" },
+    { value: "Config Update", label: "Config Update" },
+    { value: "Roles Read", label: "Roles Read" },
+    { value: "Roles Write", label: "Roles Write" },
+    { value: "Roles Delete", label: "Roles Delete" },
+    { value: "Roles Update", label: "Roles Update" },
+    { value: "Account Read", label: "Account Read" },
+    { value: "Account Write", label: "Account Write" },
+    { value: "Account Delete", label: "Account Delete" },
+    { value: "Account Update", label: "Account Update" },
   ];
 
   return (

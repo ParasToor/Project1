@@ -3,14 +3,16 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const ViewRole = () => {
-  
   const [rolesArray, setRolesArray] = useState([]);
+  const [bool,setBool] = useState(true);
 
   const navigate = useNavigate();
 
   const axiosCall = async (req, res) => {
     try {
       const apiData = await axios.post("http://localhost:8000/viewRoles");
+
+      console.log(apiData.data.data);
 
       setRolesArray(apiData.data.data);
     } catch (err) {
@@ -30,6 +32,13 @@ const ViewRole = () => {
       const result = await axios.delete("http://localhost:8000/deleteRoles", {
         data: { singleData },
       });
+
+      if(bool){
+        setBool(false);
+      }
+      else{
+        setBool(true);
+      }
     } catch (err) {
       console.log("error deleting one role - ", err);
     }
@@ -37,38 +46,56 @@ const ViewRole = () => {
 
   useEffect(() => {
     axiosCall();
-  });
+  },[bool]);
 
-  const createRoleHandler = ()=>{
+  const createRoleHandler = () => {
     navigate("/roles/create");
-  }
-
+  };
 
   return (
     <div>
       <div>
-              <button onClick={createRoleHandler}>Create a role</button>
+        <button onClick={createRoleHandler}>Create a role</button>
       </div>
-      {rolesArray.length === 0 ? (
-        <h1>Loading ....</h1>
-      ) : (
-        rolesArray.map((one, index) => (
-          <div key={index}>
-            <p>Name : </p>
-            <p>{one.name}</p>
-            <p>Permissions: </p>
-            {one.permissions.map((singlePermi, index) => (
-              <div key={index}>{singlePermi}</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Permissions</th>
+            <th>update</th>
+          </tr>
+        </thead>
+
+        {rolesArray.length === 0 ? (
+          <h1>Loading ....</h1>
+        ) : (
+          <tbody>
+            {rolesArray.map((one, index) => (
+              <div key={index}>
+                <tr>
+                  {/* <p>Name : </p> */}
+                  <td>
+                    {one.name}
+                  </td>
+                  {/* <p>Permissions: </p> */}
+                  <td>
+                    {one.permissions.map((singlePermi, index) => (
+                      <div key={index}>{singlePermi}</div>
+                    ))}
+                  </td>
+                  <td>
+                    <div>
+                      <button onClick={() => updateHandler(one)}>Update</button>
+                    
+                      <button onClick={() => deleteHandler(one)}>Delete</button>
+                    </div>
+                  </td>
+                </tr>
+              </div>
             ))}
-            <div>
-              <button onClick={() => updateHandler(one)}>Update</button>
-            </div>
-            <div>
-              <button onClick={() => deleteHandler(one)}>Delete</button>
-            </div>
-          </div>
-        ))
-      )}
+          </tbody>
+        )}
+      </table>
     </div>
   );
 };

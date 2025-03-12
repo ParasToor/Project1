@@ -7,7 +7,7 @@ require("dotenv").config();
 exports.loginHandler = async (req, res) => {
   try {
     const errors = validationResult(req);
-    console.log("express validator error - ", errors.array());
+
     if (!errors.isEmpty()) {
       return res.status(422).json({
         success: false,
@@ -16,26 +16,12 @@ exports.loginHandler = async (req, res) => {
       });
     }
 
-    //data fetch
-    const { userName, password } = req.query;
+    const { email, password } = req.query;
 
-    console.log("data from req - ", req.query);
-
-    //Validation
-    // if (!userName || !password) {
-    //   res.status(404).json({
-    //     success: false,
-    //     message: "require full data",
-
-    //   });
-    // }
 
     const findUser = await pool.query(
-      `SELECT * FROM users WHERE email = '${userName}'`
+      `SELECT * FROM users_data WHERE email = '${email}'`
     );
-
-    console.log("findUser from dataBase - ", findUser);
-    // console.log("length - ",findUser[0].length);
 
     if (findUser[0].length === 0) {
       return res.status(401).json({
@@ -46,7 +32,7 @@ exports.loginHandler = async (req, res) => {
             type: "field",
             value: "",
             msg: "User not found",
-            path: "userName",
+            path: "email",
             location: "query",
           },
         ],
@@ -76,11 +62,57 @@ exports.loginHandler = async (req, res) => {
       });
     }
 
+    const roleId = findUser[0][0].role_id;
+
+    if (!roleId) {
+      return res.status(400).json({
+        success: false,
+        message: "Error in login handler as the role id was not found",
+        errors: [
+          {
+            type: "field",
+            value: "",
+            msg: "This account is not assigned with any role.",
+            path: "password",
+            location: "query",
+          },
+        ],
+      });
+    }
+
+    const roleResult = await pool.query(
+      `SELECT * FROM roles WHERE id=${roleId}`
+    );
+
+    if (!roleResult) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Error in login handler as the permissions were not retreived from back end",
+        errors: [
+          {
+            type: "field",
+            value: "",
+            msg: "Permissions of this account were not found.",
+            path: "password",
+            location: "query",
+          },
+        ],
+      });
+    }
+
+    const permis = roleResult[0][0].permissions;
+
+    const role = roleResult[0][0].name;
+
     const user = findUser[0][0];
 
     const payload = {
-      userName: user.email,
+      email: user.email,
       id: user.id,
+      role: role,
+      roleId: roleId,
+      permissions: permis,
     };
 
     let token = jwt.sign(payload, process.env.JWT_KEY);
@@ -89,11 +121,11 @@ exports.loginHandler = async (req, res) => {
       success: true,
       jwtToken: token,
     });
-    
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: err.message,
+
+      error: err.message,
     });
   }
 };
