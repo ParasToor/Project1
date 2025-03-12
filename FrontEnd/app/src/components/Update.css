@@ -10,10 +10,10 @@
   .updateCard{
       height: 90vh;
       width: 90vw;
-      background-color: transparent;
+      /* background-color: transparent;
       border: 2px solid #6e6b6b;
       border-radius: 10px;
-      box-shadow: 0 0 10px #6e6b6b;
+      box-shadow: 0 0 10px #6e6b6b; */
       display: flex;
       flex-direction: column;
       justify-content: center;
