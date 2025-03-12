@@ -4,6 +4,7 @@ import Select from "react-select";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { MyContext } from "../MyContext";
+import "./Form.css";
 
 const CreateRole = () => {
   const { token } = useContext(MyContext);
@@ -76,36 +77,58 @@ const CreateRole = () => {
 
   return (
     <>
-      <Controller
-        name="name"
-        control={control}
-        rules={{
-          required: "Name of the role is required",
-        }}
-        render={({ field }) => (
-          <div>
-            <label>Name : </label>
-            <input {...field} type="text" placeholder="name" />
+      <div className="formBody">
+        <div className="container">
+          <h1>Create a Role</h1>
+
+          <div className="input-box">
+            <Controller
+              name="name"
+              control={control}
+              rules={{
+                required: "Name of the role is required",
+              }}
+              render={({ field }) => (
+                <div>
+                  {/* <label>Name : </label> */}
+                  <input
+                    className="inputFields"
+                    {...field}
+                    type="text"
+                    placeholder="Role Name"
+                  />
+                </div>
+              )}
+            />
+            {errors.name && <p className="err-msg">{errors.name.message}</p>}
           </div>
-        )}
-      />
-      {errors.name && <p className="err-msg">{errors.name.message}</p>}
 
-      <Controller
-        name="permissions"
-        control={control}
-        rules={{
-          required: "Permissions to assign are required",
-        }}
-        render={({ field }) => (
-          <Select {...field} options={options} isMulti={true} />
-        )}
-      />
-      {errors.permissions && (
-        <p className="err-msg">{errors.permissions.message}</p>
-      )}
+          <div className="input-boxNew">
+            <Controller
+              name="permissions"
+              control={control}
+              rules={{
+                required: "Permissions to assign are required",
+              }}
+              render={({ field }) => (
+                <Select
+                  className="inputFieldsNew"
+                  {...field}
+                  options={options}
+                  isMulti={true}
+                />
+              )}
+            />
+            {errors.permissions && (
+              <p className="err-msg">{errors.permissions.message}</p>
+            )}
+          </div>
 
-      <button onClick={handleSubmit(clickHandler)}>Submit</button>
+          <button className="btn" onClick={handleSubmit(clickHandler)}>
+            Submit
+          </button>
+        </div>
+      </div>
     </>
   );
 };

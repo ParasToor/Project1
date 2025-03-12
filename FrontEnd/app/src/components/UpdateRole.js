@@ -4,6 +4,7 @@ import Select from "react-select";
 import axios from "axios";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { MyContext } from "../MyContext";
+import "./Form.css";
 
 const UpdateRole = () => {
   const { token } = useContext(MyContext);
@@ -70,26 +71,46 @@ const UpdateRole = () => {
 
   return (
     <>
-      <Controller
-        name="name"
-        control={control}
-        render={({ field }) => (
-          <div>
-            <label>Name : </label>
-            <input {...field} type="text" placeholder="name" />
+      <div className="formBody">
+        <div className="container">
+          <h1>Update Role</h1>
+          <div className="input-box">
+            <Controller
+              name="name"
+              control={control}
+              render={({ field }) => (
+                <div>
+                  <input
+                    className="inputFields"
+                    {...field}
+                    type="text"
+                    placeholder="Role Name"
+                  />
+                </div>
+              )}
+            />
           </div>
-        )}
-      />
 
-      <Controller
-        name="permissions"
-        control={control}
-        render={({ field }) => (
-          <Select {...field} options={options} isMulti={true} />
-        )}
-      />
+          <div className="input-boxNew">
+            <Controller
+              name="permissions"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  className="inputFieldsNew"
+                  {...field}
+                  options={options}
+                  isMulti={true}
+                />
+              )}
+            />
+          </div>
 
-      <button onClick={handleSubmit(doUpdate)}>Update</button>
+          <button className="btn" onClick={handleSubmit(doUpdate)}>
+            Update
+          </button>
+        </div>
+      </div>
     </>
   );
 };

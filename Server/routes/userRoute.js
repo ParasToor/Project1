@@ -25,6 +25,7 @@ const { createuserHandler } = require("../controllers/createuser");
 const { viewUserHandler } = require("../controllers/viewUserHandler");
 const { updateuser } = require("../controllers/updateUserHandler");
 const { deleteuser } = require("../controllers/deleteUserHandler");
+const { deleteConfigHandler } = require("../controllers/deleteConfig");
 
 var loginValidate = [
   check("email").notEmpty().withMessage("Email is required"),
@@ -56,6 +57,7 @@ router.post("/viewRoles",verifyMiddleware, viewRoleHandler);
 router.patch("/update",verifyMiddleware ,updateHandler);
 router.patch("/updateRoles",verifyMiddleware, updateRoleHandler);
 router.delete("/deleteRoles", deleteRoleHandler);
+router.delete("/deleteConfig", deleteConfigHandler);
 
 
 // -------------Aman-----------------------

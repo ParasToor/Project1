@@ -203,10 +203,12 @@ import { MyContext } from "../MyContext";
 const View = () => {
   const navigate = useNavigate();
   const [array, setArray] = useState([]);
+
+  const [configBool, setConfigBool] = useState(true);
+
   const { logout, globalPermiArray, token } = useContext(MyContext);
 
   const createPageHandler = () => {
-    
     navigate("/config/create");
   };
 
@@ -221,10 +223,9 @@ const View = () => {
         headers: { Authorization: token },
       });
 
-
       setArray(apiData.data.sqlData);
     } catch (err) {
-      console.log("Error while gettiung permissions - ",err);
+      console.log("Error while gettiung permissions - ", err);
     }
   };
 
@@ -232,12 +233,35 @@ const View = () => {
   //   axiosCall();
   // }
 
+  async function onDelete(singleData) {
+    try {
+      console.log(singleData);
+
+      const delResult = await axios.delete(
+        "http://localhost:8000/deleteConfig",
+        {
+          data: {
+            id: singleData.id,
+          },
+        }
+      );
+
+      if (configBool) {
+        setConfigBool(false);
+      } else {
+        setConfigBool(true);
+      }
+
+    } catch (err) {
+      console.log("Error in on Delete rfom backend - ", err);
+    }
+  }
+
   useEffect(() => {
     axiosCall();
-  }, []);
+  }, [configBool]);
 
   function onUpdate(singleData) {
-    
     navigate(`/config/update/${singleData.id}`, { state: singleData });
   }
 
@@ -259,25 +283,25 @@ const View = () => {
           <table>
             <thead>
               <tr className="headingContainer">
-                <th>ip_address:</th>
-                <th>port:</th>
-                <th>hostname:</th>
-                <th>protocol:</th>
-                <th>base_url:</th>
-                <th>api_endpoint:</th>
-                <th>username:</th>
-                <th>password:</th>
-                <th>access_token:</th>
-                <th>api_key:</th>
-                <th>client_id:</th>
-                <th>client_secret:</th>
-                <th>encryption_key:</th>
-                <th>cert_path:</th>
-                <th>db_host:</th>
-                <th>db_port:</th>
-                <th>db_name:</th>
-                <th>db_username:</th>
-                <th>db_password:</th>
+                <th>ip_address</th>
+                <th>port</th>
+                <th>hostname</th>
+                <th>protocol</th>
+                <th>base_url</th>
+                <th>api_endpoint</th>
+                <th>username</th>
+                <th>password</th>
+                <th>access_token</th>
+                <th>api_key</th>
+                <th>client_id</th>
+                <th>client_secret</th>
+                <th>encryption_key</th>
+                <th>cert_path</th>
+                <th>db_host</th>
+                <th>db_port</th>
+                <th>db_name</th>
+                <th>db_username</th>
+                <th>db_password</th>
                 {globalPermiArray.includes("Config Update") && <th>update</th>}
               </tr>
             </thead>
@@ -346,7 +370,7 @@ const View = () => {
                       <p>{singleData.db_password}</p>
                     </td>
                     {globalPermiArray.includes("Config Update") && (
-                      <td style={{display:'flex'}}>
+                      <td style={{ display: "flex" }}>
                         <button
                           className="updateBtn"
                           onClick={() => onUpdate(singleData)}
@@ -355,7 +379,7 @@ const View = () => {
                         </button>
                         <button
                           className="updateBtn"
-                          onClick={() => onUpdate(singleData)}
+                          onClick={() => onDelete(singleData)}
                         >
                           Delete
                         </button>
