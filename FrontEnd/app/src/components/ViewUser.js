@@ -21,7 +21,7 @@ const ViewUser = () => {
   const fetchUsers = async () => {
     try {
       const apiData = await axios.post("http://localhost:8000/viewUser");
-      console.log("data from axios view call - ", apiData.data.sqlData);
+      
       setUsers(apiData.data.sqlData);
     } catch (err) {
       console.log("Error from view axios call - ", err);

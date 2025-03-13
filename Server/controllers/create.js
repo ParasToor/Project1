@@ -6,18 +6,17 @@ exports.createHandler = async (req, res) => {
     const data = req.body.data;
     const id = uuidv4();
 
-    console.log("data fro frontEnd to create - ", data);
 
     const createEntry = await pool.query(`INSERT INTO config VALUES (
         '${id}', 
         '${data.ip_address}', 
-        '${data.hostnam}', 
+        '${data.hostname}', 
         ${data.port}, 
         '${data.protocol}', 
         '${data.base_url}', 
         '${data.api_endpoint}', 
-        '${data.usernam}', 
-        '${data.passwor}', 
+        '${data.username}', 
+        '${data.password}', 
         '${data.access_token}', 
         '${data.api_key}', 
         '${data.client_id}', 
@@ -46,23 +45,3 @@ exports.createHandler = async (req, res) => {
   }
 };
 
-// ip_address: 'kjjnjkn',
-//   hostname: 'jnjkn',
-//   port: '897',
-//   protocol: 'kbkj',
-//   base_url: 'kjnkjnk',
-//   api_endpoint: 'kjnknkn',
-//   username: 'kjnknkjn',
-//   password: 'jknkjnkn',
-//   access_token: 'kjnkjnkjn',
-//   api_key: 'kjnjknkjn',
-//   client_id: 'kjnkjnkjn',
-//   client_secret: 'kjnkjn',
-//   encryption_key: 'kjnkjn',
-//   cert_path: 'kjnkjnjkn',
-//   db_host: 'kjnkj',
-//   db_port: '908',
-//   db_name: 'jnln',
-//   db_username: 'kjknkjn',
-//   db_password: 'jknkjkn',
-//   active: 'true'

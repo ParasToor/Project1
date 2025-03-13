@@ -14,7 +14,7 @@ export default function CreateUser() {
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
-  const { login, token } = useContext(MyContext);
+  
 
   async function fetchRole() {
     // console.log("fetch for the role call");
@@ -31,36 +31,26 @@ export default function CreateUser() {
   }
 
   async function clickHandler(data) {
-    console.log('button clicked');
+    
     try {
-      console.log("data to be sending ", data);
+      
       const apiData = await axios.post("http://localhost:8000/createuser", {
         data,
       });
-      console.log("api called", apiData);
-      navigate('/accounts')
-      return;
+      
+      navigate('/accounts');
+
     } catch (err) {
+      
       console.log("Error from axios create User -", err);
       
       setError("apiError", { message: err.response?.data?.message || err.message });
     }
   }
 
-  
-  async function verifyFunction() {
-    try {
-      const verifyResult = await axios.post("http://localhost:8000/verify", {
-        headers: { Authorization: token },
-      });
-    } catch (err) {
-      console.log("Error in verifying in create Page - ", err);
-    }
-  }
 
   useEffect(() => {
     fetchRole();
-    verifyFunction();
   }, []);
 
   return (

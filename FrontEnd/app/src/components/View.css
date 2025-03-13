@@ -20,6 +20,13 @@
   background-color: white;
 }
 
+.createPageBtn:hover,
+.viewPageBtn:hover{
+ 
+ background-color: #4f4f4f58;
+
+}
+
 .viewContainer {
   overflow-x: auto ;
 }

@@ -11,20 +11,27 @@ const Home = () => {
 
   async function permiFunction() {
     try {
-      const permisResult = await axios.post("http://localhost:8000/getPermi", {
-        headers: { Authorization: token },
-      });
-
-      setGlobalPermiArray(permisResult.data.permiArray);
+      if (globalPermiArray.length === 0) {
+        const permisResult = await axios.post(
+          "http://localhost:8000/getPermi",
+          {
+            headers: { Authorization: token },
+          }
+        );
+        setGlobalPermiArray(permisResult.data.permiArray);
+      }
     } catch (err) {
       console.log("Error from checking the permissions");
       console.log(err);
     }
   }
 
+
   useEffect(() => {
     permiFunction();
-  }, []);
+  }
+  , [globalPermiArray]
+);
 
   return (
     <div className="homeBody">
@@ -43,7 +50,9 @@ const Home = () => {
           )}
 
           {globalPermiArray.includes("Account Read") && (
-            <NavLink className="links" to="/accounts" >Accounts</NavLink>
+            <NavLink className="links" to="/accounts">
+              Accounts
+            </NavLink>
           )}
         </ul>
       </div>

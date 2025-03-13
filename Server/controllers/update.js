@@ -24,21 +24,15 @@ exports.updateHandler = async (req, res) => {
       }
     });
     queryString = queryString.substring(0, queryString.length - 2);
-    // console.log("Final query String - ", queryString);
-    // console.log(
-    //   "query - ",
-    //   `UPDATE config SET ${queryString}  WHERE id = '${id}';`
-    // );
 
     const queryResult = await pool.query(
       `UPDATE config SET ${queryString}  WHERE id = '${id}';`
     );
 
-    console.log("updated data - ", queryResult);
-
     res.status(200).json({
       success: true,
     });
+
   } catch (err) {
     res.status(500).json({
       success: false,

@@ -8,7 +8,6 @@ import { MyContext } from "../MyContext";
 const Create = () => {
   const { token } = useContext(MyContext);
 
-  console.log("test");
   const navigate = useNavigate();
 
   const configFields = [
@@ -36,7 +35,7 @@ const Create = () => {
 
   async function clickHandler(data) {
     try {
-      console.log("data front end is sending to create - ", data);
+      
       const apiData = await axios.post("http://localhost:8000/create", {
         data,
         headers: { Authorization: token },
@@ -51,20 +50,6 @@ const Create = () => {
   }
 
   const { control, handleSubmit, setError } = useForm();
-
-  async function verifyFunction() {
-    try {
-      const verifyResult = await axios.post("http://localhost:8000/verify", {
-        headers: { Authorization: token },
-      });
-    } catch (err) {
-      console.log("Error in verifying in create Page - ", err);
-    }
-  }
-
-  useEffect(() => {
-    verifyFunction();
-  }, []);
 
   return (
     <div className="createBody">

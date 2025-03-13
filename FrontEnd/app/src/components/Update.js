@@ -11,11 +11,11 @@ const Update = () => {
 
   const navigate = useNavigate();
 
-  const id = useParams();
+  
 
   const location = useLocation();
   const prevData = location.state || {};
-  console.log("Previous data which is to be updated - ", prevData);
+  const id = prevData.id;
 
   const configFields = [
     "ip_address",

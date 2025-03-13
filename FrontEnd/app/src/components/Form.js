@@ -20,15 +20,13 @@ const Form = () => {
 
   async function clickHandler(data) {
     try {
-      console.log("Data i am sendiong - ", data);
+      
       const apiData = await axios.get("http://localhost:8000/login", {
         params: {
           email: data.email,
           password: data.password,
         },
       });
-
-      console.log("Api Data - ", apiData.data.jwtToken);
 
       login(apiData.data.jwtToken);
 
@@ -55,16 +53,19 @@ const Form = () => {
 
   const verifyFunction = async () => {
     try {
-      console.log("Verification function is working.");
+      //doubt here
       if (!token) {
         navigate("/login");
       }
 
+      // HEre we can also use
+      if(token){
       const verifyResult = await axios.post("http://localhost:8000/verify", {
         headers: { Authorization: token },
       });
-      console.log("data from back end call to verify - ", verifyResult);
+
       navigate("/");
+      }
     } catch (err) {
       console.log("Error in verifying - ", err);
       navigate("/login");

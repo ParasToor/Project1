@@ -45,23 +45,14 @@ const router = createBrowserRouter([
                 element: <Create />,
               },
               {
-                path: "/config/update/:id",
+                path: "/config/update",
                 element: <Update />,
               },
-              // children: [
-              //   {
-              //     path: "/view/create",
-              //     element: <Create />,
-              //   },
-              //   {
-              //     path: "/view/update/:id",
-              //     element: <Update />,
-              //   },
             ],
           },
           {
             path: "/roles",
-            element: <RoleWrapper />,
+            element: <Outlet />,
             children: [
               {
                 path: "",
@@ -79,11 +70,11 @@ const router = createBrowserRouter([
           },
           {
             path: "/accounts",
-            element: <AccountWrapper/>,
+            element: <Outlet />,
             children: [
-              { 
-                path: "", 
-                element: <ViewUser /> 
+              {
+                path: "",
+                element: <ViewUser />,
               },
               {
                 path: "create",
@@ -91,7 +82,7 @@ const router = createBrowserRouter([
               },
               {
                 path: "update/:id",
-                element: <UpdateUser/>,
+                element: <UpdateUser />,
               },
             ],
           },

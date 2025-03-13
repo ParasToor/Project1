@@ -6,16 +6,16 @@ export const MyContextProvider = ({children})=>{
     
     const [token ,setToken] = useState( localStorage.getItem("token") || null);
 
-    const [globalPermiArray,setGlobalPermiArray] = useState( localStorage.getItem("globalPermiArray") || []);
+    const [globalPermiArray,setGlobalPermiArray] = useState( [] );
 
-    useEffect(()=>{
-        if(globalPermiArray.length !== 0 ){
-            localStorage.setItem("globalPermiArray",globalPermiArray);
-        }
-        else{
-            localStorage.removeItem("globalPermiArray");
-        }
-    },[globalPermiArray])
+    // useEffect(()=>{
+    //     if(globalPermiArray.length !== 0 ){
+    //         localStorage.setItem("globalPermiArray",globalPermiArray);
+    //     }
+    //     else{
+    //         localStorage.removeItem("globalPermiArray");
+    //     }
+    // },[globalPermiArray])
 
     useEffect(()=>{
         if(token){
@@ -31,6 +31,7 @@ export const MyContextProvider = ({children})=>{
     }
 
     const logout = ()=>{
+        setGlobalPermiArray([]);
         setToken(null);
     }
 

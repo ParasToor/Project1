@@ -93,7 +93,7 @@ exports.loginHandler = async (req, res) => {
           {
             type: "field",
             value: "",
-            msg: "Permissions of this account were not found.",
+            msg: "No entry for this user",
             path: "password",
             location: "query",
           },
@@ -102,6 +102,23 @@ exports.loginHandler = async (req, res) => {
     }
 
     const permis = roleResult[0][0].permissions;
+
+    if (!permis) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Error in login handler as the permissions were not retreived from back end",
+        errors: [
+          {
+            type: "field",
+            value: "",
+            msg: "This user doesn't have permissions",
+            path: "password",
+            location: "query",
+          },
+        ],
+      });
+    }
 
     const role = roleResult[0][0].name;
 

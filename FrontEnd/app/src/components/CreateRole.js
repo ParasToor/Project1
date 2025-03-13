@@ -61,20 +61,6 @@ const CreateRole = () => {
     { value: "Account Update", label: "Account Update" },
   ];
 
-  async function verifyFunction() {
-    try {
-      const verifyResult = await axios.post("http://localhost:8000/verify", {
-        headers: { Authorization: token },
-      });
-    } catch (err) {
-      console.log("Error in verifying in create Page - ", err);
-    }
-  }
-
-  useEffect(() => {
-    verifyFunction();
-  }, []);
-
   return (
     <>
       <div className="formBody">
