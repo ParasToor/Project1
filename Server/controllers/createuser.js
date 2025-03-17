@@ -18,7 +18,7 @@ exports.createuserHandler = async (req, res) => {
         message: "User already exists",
       });
     }
-
+    //  console.log('enterend here');
     const salt = await bcrypt.genSalt(10);
     data.password = await bcrypt.hash(data.password, salt);
     // console.log("data from fd is ", data);

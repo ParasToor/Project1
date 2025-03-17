@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 import "./Create.css";
@@ -7,7 +7,6 @@ import { MyContext } from "../MyContext";
 
 const Create = () => {
   const { token } = useContext(MyContext);
-
   const navigate = useNavigate();
 
   const configFields = [
@@ -33,8 +32,11 @@ const Create = () => {
     "active",
   ];
 
+  const { control, handleSubmit, setError } = useForm();
+
   async function clickHandler(data) {
     try {
+<<<<<<< Updated upstream
       const apiData = await axios.post(
         "http://localhost:8000/v1/configs",
         {
@@ -44,16 +46,32 @@ const Create = () => {
           headers: { Authorization: token },
         }
       );
+=======
+      const apiData = await axios.post("http://localhost:8000/create", {
+        data,
+        headers: { Authorization: token },
+      });
+>>>>>>> Stashed changes
 
       console.log("data from axios create call - ", apiData);
-
       navigate("/");
     } catch (err) {
-      console.log("Error fropm axios create - ", err);
+      
+      if (err.response && err.response.data.errors) {
+        err.response.data.errors.forEach((error) => {
+          console.log('path',error.path);
+          setError(error.path, {
+            type: "manual",
+            message: error.message,
+          });
+        });
+      } else {
+        console.log("Error from axios create - ", err);
+        setError("apiError", { message: err.response?.data?.message || err.message });
+    
+      }
     }
   }
-
-  const { control, handleSubmit, setError } = useForm();
 
   return (
     <div className="createBody">
@@ -64,14 +82,13 @@ const Create = () => {
               <Controller
                 name={one}
                 control={control}
-                rules={{
-                  required: `${one} is required`,
-                }}
+                // rules={{
+                //   required: `${one} is required`,
+                // }}
                 render={({ field, fieldState: { error } }) => (
                   <div>
                     <label>{one}: </label>
                     <br />
-
                     {one === "db_name" ? (
                       <select
                         {...field}
@@ -91,7 +108,7 @@ const Create = () => {
                           id="Enable"
                           value={true}
                         />
-                        <label for="Enable">Enable</label>
+                        <label htmlFor="Enable">Enable</label>
                         <span> </span>
                         <input
                           {...field}
@@ -99,7 +116,7 @@ const Create = () => {
                           id="Disable"
                           value={false}
                         />
-                        <label for="Disable">Disable</label>
+                        <label htmlFor="Disable">Disable</label>
                       </div>
                     ) : (
                       <input

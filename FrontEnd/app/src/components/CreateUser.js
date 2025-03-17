@@ -2,8 +2,7 @@ import { useForm, Controller } from "react-hook-form";
 import "./Create.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { MyContext } from "../MyContext";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 export default function CreateUser() {
 
   const { token } = useContext(MyContext);
@@ -48,6 +47,11 @@ export default function CreateUser() {
 
       navigate("/accounts");
     } catch (err) {
+       if(err.response && err.response.data.errors){
+        err.response.data.errors.forEach((error)=>{
+          setError(error.path,{type:"mannual",message:error.message})
+        })
+       }
       console.log("Error from axios create User -", err);
 
       setError("apiError", {
@@ -70,7 +74,11 @@ export default function CreateUser() {
               name="userName"
               control={control}
               rules={{
-                required: "Username is required.",
+                required: 'Username is required.',
+                pattern: {
+                  value: /^[a-zA-Z0-9._]{6,20}$/,
+                  message: 'Username must be more than 6  characters long and can only contain letters, numbers, underscores, and dots.',
+                },
               }}
               render={({ field }) => (
                 <input
@@ -95,7 +103,15 @@ export default function CreateUser() {
               name="password"
               control={control}
               rules={{
-                required: "Password is required.",
+                required: 'Password is required.',
+                 minLength: {
+                  value: 8,
+                  message: 'Password must be at least 8 characters long.',
+                },
+                pattern: {
+                  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                  message: 'Password must include uppercase, lowercase, number, and special character.',
+                },
               }}
               render={({ field }) => (
                 <input

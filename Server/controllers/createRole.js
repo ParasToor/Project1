@@ -2,6 +2,7 @@ const { raw } = require("mysql2");
 const pool = require("../database/database");
 const Role = require("../models/RoleModel");
 
+const {Role} = require('../database/models')
 exports.createRoleHandler = async (req, res) => {
   try {
     const data = req.body.data;
@@ -96,16 +97,37 @@ exports.createRoleHandler = async (req, res) => {
       permissions: newArray,
     });
 
-    console.log("Result from backend data entry creation - ", dataBaseResult);
+    // console.log("Result from backend data entry creation - ", dataBaseResult);
+   console.log(queryString,"querrry ");
+
+   
+
+    // console.log("Result from backend data entry creation - ", newRole);
+
 
     res.status(200).json({
       success: true,
     });
   } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: "Error inside create Role Handler",
-      error: err.message,
-    });
+    if (err.name === 'SequelizeValidationError') {
+      const errors = err.errors.map(error => ({
+        message: error.message,
+        type: error.type,
+        path: error.path,
+        value: error.value,
+      }));
+      res.status(400).json({
+        success: false,
+        message: "Validation errors",
+        errors: errors,
+      });
+    } else {
+      console.log(err);
+      res.status(500).json({
+        success: false,
+        message: "Error inside create Handler",
+        error: err.message,
+      });
+    }
   }
 };
