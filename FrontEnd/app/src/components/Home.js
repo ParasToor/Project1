@@ -13,7 +13,7 @@ const Home = () => {
     try {
       if (globalPermiArray.length === 0) {
         const permisResult = await axios.post(
-          "http://localhost:8000/getPermi",
+          "http://localhost:8000/v1/permis",
           {
             headers: { Authorization: token },
           }

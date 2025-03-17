@@ -24,8 +24,9 @@ const CreateRole = () => {
 
   const clickHandler = async (data) => {
     try {
-      const result = await axios.post("http://localhost:8000/createRole", {
+      const result = await axios.post("http://localhost:8000/v1/roles", {
         data,
+      },{
         headers: { Authorization: token },
       });
 

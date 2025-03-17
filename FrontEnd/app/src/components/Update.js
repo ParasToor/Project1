@@ -6,12 +6,9 @@ import "./Update.css";
 import { MyContext } from "../MyContext";
 
 const Update = () => {
-
-  const {token} = useContext(MyContext);
+  const { token } = useContext(MyContext);
 
   const navigate = useNavigate();
-
-  
 
   const location = useLocation();
   const prevData = location.state || {};
@@ -44,16 +41,20 @@ const Update = () => {
     try {
       console.log(data);
 
-      const apiData = await axios.patch("http://localhost:8000/update", {
-        id,
-        data,
-        headers: { Authorization: token },
-      });
+      const apiData = await axios.patch(
+        "http://localhost:8000/v1/configs",
+        {
+          id,
+          data,
+        },
+        {
+          headers: { Authorization: token },
+        }
+      );
 
       console.log("data from axios update call - ", apiData);
 
       navigate("/");
-
     } catch (err) {
       console.log("Error in update fropm axios Patch - ", err);
     }
@@ -103,7 +104,6 @@ const Update = () => {
     verifyFunction();
   }, []);
 
-
   return (
     <div className="updateBody">
       <div className="updateCard">
@@ -115,36 +115,43 @@ const Update = () => {
                 control={control}
                 render={({ field }) => (
                   <div>
-                    <div >
+                    <div>
                       <label>{one}:</label>
-                      <br/>
+                      <br />
                       {one === "db_name" ? (
-                      <select
-                        {...field}
-                        className="updateInputFields"
-                      >
-                        <option value="" disabled selected>
-                          {one || "Select an option"}
-                        </option>
-                        <option value="config">config</option>
-                        <option value="users">user</option>
-                      </select>
-                    ) : one === "active" ? (
-                      <div>
-                        <input {...field} type="radio" id="Enable" value={true} />
-                        <label for="Enable">Enable</label>
-                        <span>  </span>
-                        <input {...field} type="radio" id="Disable" value={false} />
-                        <label for="Disable">Disable</label>
-                      </div>
-                    ) : (
-                      <input
-                        {...field}
-                        className="updateInputFields"
-                        type="text"
-                        placeholder={one}
-                      />
-                    )}
+                        <select {...field} className="updateInputFields">
+                          <option value="" disabled selected>
+                            {one || "Select an option"}
+                          </option>
+                          <option value="config">config</option>
+                          <option value="users">user</option>
+                        </select>
+                      ) : one === "active" ? (
+                        <div>
+                          <input
+                            {...field}
+                            type="radio"
+                            id="Enable"
+                            value={true}
+                          />
+                          <label for="Enable">Enable</label>
+                          <span> </span>
+                          <input
+                            {...field}
+                            type="radio"
+                            id="Disable"
+                            value={false}
+                          />
+                          <label for="Disable">Disable</label>
+                        </div>
+                      ) : (
+                        <input
+                          {...field}
+                          className="updateInputFields"
+                          type="text"
+                          placeholder={one}
+                        />
+                      )}
                     </div>
                   </div>
                 )}

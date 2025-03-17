@@ -21,7 +21,7 @@ const Form = () => {
   async function clickHandler(data) {
     try {
       
-      const apiData = await axios.get("http://localhost:8000/login", {
+      const apiData = await axios.get("http://localhost:8000/v1/login", {
         params: {
           email: data.email,
           password: data.password,

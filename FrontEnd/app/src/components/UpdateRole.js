@@ -28,11 +28,16 @@ const UpdateRole = () => {
 
   const doUpdate = async (newData) => {
     try {
-      const updateRes = await axios.patch("http://localhost:8000/updateRoles", {
-        id: prevData.id,
-        newData,
-        headers: { Authorization: token },
-      });
+      const updateRes = await axios.patch(
+        "http://localhost:8000/v1/roles",
+        {
+          id: prevData.id,
+          newData,
+        },
+        {
+          headers: { Authorization: token },
+        }
+      );
 
       navigate("/roles");
     } catch (err) {

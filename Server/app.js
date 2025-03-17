@@ -10,6 +10,5 @@ app.use(
   })
 );
 app.use(express.json());
-app.use(router);
-
+app.use("/v1", router);
 module.exports = app;

@@ -1,19 +1,19 @@
-const mysql = require("mysql2");
+// const mysql = require("mysql2");
 
-const pool = mysql
-  .createPool({
-    host: "localhost",
-    user: "root",
-    password: "Mysql@2468",
-    database: "project1",
-  })
-  .promise();
+// const pool = mysql
+//   .createPool({
+//     host: "localhost",
+//     user: "root",
+//     password: "Mysql@2468",
+//     database: "project1",
+//   })
+//   .promise();
 
-// async function fetchUsers() {
-//   const result = await pool.query("SELECT * FROM users");
-//   console.log(result);
-// }
+// // async function fetchUsers() {
+// //   const result = await pool.query("SELECT * FROM users");
+// //   console.log(result);
+// // }
 
-// fetchUsers();
+// // fetchUsers();
 
-module.exports = pool;
+// module.exports = pool;

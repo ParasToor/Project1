@@ -48,24 +48,26 @@ var loginValidate = [
 
 // post krna hai
 router.get("/login", loginValidate, loginHandler);
-router.post("/create",verifyMiddleware, createHandler);
-router.post("/createRole",verifyMiddleware, createRoleHandler);
-router.post("/verify", verifyHandler);
-router.post("/getPermi", getPermiHandler);
-router.post("/view",verifyMiddleware ,viewHandler);
-router.post("/viewRoles",verifyMiddleware, viewRoleHandler);
-router.patch("/update",verifyMiddleware ,updateHandler);
-router.patch("/updateRoles",verifyMiddleware, updateRoleHandler);
-router.delete("/deleteRoles", deleteRoleHandler);
-router.delete("/deleteConfig", deleteConfigHandler);
 
+router.get("/configs",verifyMiddleware,viewHandler);
+router.get("/roles",verifyMiddleware, viewRoleHandler);
+router.get('/users',verifyMiddleware,viewUserHandler);
 
-// -------------Aman-----------------------
+router.post("/configs",verifyMiddleware, createHandler);
+router.post("/roles",verifyMiddleware, createRoleHandler);
+router.post('/users',verifyMiddleware,createuserHandler);
+
+router.patch("/configs",verifyMiddleware ,updateHandler);
+router.patch("/roles",verifyMiddleware, updateRoleHandler);
+router.patch('/users',verifyMiddleware,updateuser);
+
+router.delete("/configs/:id",verifyMiddleware, deleteConfigHandler);
+router.delete("/roles/:id",verifyMiddleware, deleteRoleHandler);
+router.delete('/users/:id',verifyMiddleware,deleteuser);
+
 router.get("/fetchrole",fetchroleHandler);
-router.post('/createuser',createuserHandler);
-router.post('/viewUser',viewUserHandler);
-router.patch('/updateuser',updateuser);
-router.delete('/deleteuser/:id',deleteuser);
+router.post("/verify", verifyHandler);
+router.post("/permis", getPermiHandler);
 
 
 module.exports = router;

@@ -35,11 +35,15 @@ const Create = () => {
 
   async function clickHandler(data) {
     try {
-      
-      const apiData = await axios.post("http://localhost:8000/create", {
-        data,
-        headers: { Authorization: token },
-      });
+      const apiData = await axios.post(
+        "http://localhost:8000/v1/configs",
+        {
+          data,
+        },
+        {
+          headers: { Authorization: token },
+        }
+      );
 
       console.log("data from axios create call - ", apiData);
 

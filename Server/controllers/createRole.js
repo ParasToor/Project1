@@ -1,11 +1,13 @@
+const { raw } = require("mysql2");
 const pool = require("../database/database");
+const Role = require("../models/RoleModel");
 
 exports.createRoleHandler = async (req, res) => {
   try {
     const data = req.body.data;
 
     console.log("Error from backend - ", data);
-    
+
     if (!data.name) {
       return res.status(401).json({
         success: "false",
@@ -38,15 +40,21 @@ exports.createRoleHandler = async (req, res) => {
       });
     }
 
+    // console.log("data.permissions - ",data.permissions);
+
     const arrayOfPerm = data.permissions;
 
-    const findRole = await pool.query(
-      `SELECT * FROM roles WHERE name = '${data.name}';`
-    );
+    const findRole = await Role.findOne({
+      where: { name: data.name },
+    });
 
-    console.log("Role FINDING - ", findRole[0].length);
+    // const findRole = await pool.query(
+    //   `SELECT * FROM roles WHERE name = '${data.name}';`
+    // );
 
-    if (findRole[0].length !== 0) {
+    // console.log("Role FINDING - ", findRole[0].length);
+
+    if (findRole) {
       return res.status(401).json({
         success: "false",
         message: "This Role already exists",
@@ -65,13 +73,28 @@ exports.createRoleHandler = async (req, res) => {
     let queryString = "";
 
     arrayOfPerm.map((one) => {
-      queryString = queryString.concat('"', one.value, '",');
+      // queryString = queryString.concat('"', one.value, '",');
+      queryString = queryString.concat(one.value, '",');
     });
-    queryString = queryString.substring(0, queryString.length - 1);
 
-    const dataBaseResult =
-      await pool.query(`INSERT INTO roles (name, permissions)
-    VALUES ('${data.name}', '[${queryString}]');`);
+    const newArray = arrayOfPerm.map((one) => {
+      return one.value;
+      // queryString = queryString.concat('"', one.value, '",');
+      // queryString = queryString.concat( one.value, '",');
+    });
+
+    console.log("newArray - ", newArray);
+
+    queryString = queryString.substring(0, queryString.length - 2);
+
+    // const dataBaseResult =
+    //   await pool.query(`INSERT INTO roles (name, permissions)
+    // VALUES ('${data.name}', '[${queryString}]');`);
+
+    const dataBaseResult = await Role.create({
+      name: data.name,
+      permissions: newArray,
+    });
 
     console.log("Result from backend data entry creation - ", dataBaseResult);
 

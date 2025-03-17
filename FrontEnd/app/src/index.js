@@ -81,7 +81,7 @@ const router = createBrowserRouter([
                 element: <CreateUser />,
               },
               {
-                path: "update/:id",
+                path: "update",
                 element: <UpdateUser />,
               },
             ],

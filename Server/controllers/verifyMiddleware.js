@@ -3,8 +3,9 @@ require("dotenv").config();
 
 exports.verifyMiddleware = async (req, res, next) => {
   try {
+    
 
-    const token = req.body.headers.Authorization;
+    const token = req.headers.authorization;
     const result = jwt.verify(token, process.env.JWT_KEY);
 
     console.log("Verification Done");
@@ -13,7 +14,7 @@ exports.verifyMiddleware = async (req, res, next) => {
   } catch (err) {
     return res.status(500).json({
       success: false,
-      message: "Error inside verify handler",
+      message: "Error inside verify middleware",
       error: err.message,
     });
   }

@@ -23,27 +23,27 @@ const View = () => {
 
   const axiosCall = async () => {
     try {
-      const apiData = await axios.post("http://localhost:8000/view", {
+      const apiData = await axios.get("http://localhost:8000/v1/configs", {
         headers: { Authorization: token },
       });
 
+      console.log("apiData.data.sqlData - ", apiData.data.sqlData);
+
       setArray(apiData.data.sqlData);
+
     } catch (err) {
       console.log("Error while gettiung permissions - ", err);
     }
   };
-
 
   async function onDelete(singleData) {
     try {
       console.log(singleData);
 
       const delResult = await axios.delete(
-        "http://localhost:8000/deleteConfig",
+        `http://localhost:8000/v1/configs/${singleData.id}`,
         {
-          data: {
-            id: singleData.id,
-          },
+          headers: { Authorization: token },
         }
       );
 
@@ -52,7 +52,6 @@ const View = () => {
       } else {
         setConfigBool(true);
       }
-
     } catch (err) {
       console.log("Error in on Delete rfom backend - ", err);
     }
@@ -103,13 +102,13 @@ const View = () => {
                 <th>db_name</th>
                 <th>db_username</th>
                 <th>db_password</th>
+                <th>state</th>
                 {globalPermiArray.includes(
                   "Config Update" || "Config Delete"
                 ) && <th>Actions</th>}
               </tr>
             </thead>
             {array.length !== 0 && (
-              
               <tbody>
                 {array.map((singleData, index) => (
                   <tr key={index}>
@@ -169,6 +168,9 @@ const View = () => {
                     </td>
                     <td>
                       <p>{singleData.db_password}</p>
+                    </td>
+                    <td>
+                      <p>{singleData.active ? ("Enabled") : ("Disabled") }</p>
                     </td>
                     {globalPermiArray.includes(
                       "Config Update" || "Config Delete"

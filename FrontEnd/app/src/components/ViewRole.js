@@ -2,11 +2,11 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { MyContext } from "../MyContext";
-import './View.css'
+import "./View.css";
 const ViewRole = () => {
-  const {logout,token , globalPermiArray} = useContext(MyContext);
+  const { logout, token, globalPermiArray } = useContext(MyContext);
   const [rolesArray, setRolesArray] = useState([]);
-  const [bool,setBool] = useState(true);
+  const [bool, setBool] = useState(true);
 
   const navigate = useNavigate();
 
@@ -17,7 +17,7 @@ const ViewRole = () => {
 
   const axiosCall = async (req, res) => {
     try {
-      const apiData = await axios.post("http://localhost:8000/viewRoles",{
+      const apiData = await axios.get("http://localhost:8000/v1/roles", {
         headers: { Authorization: token },
       });
 
@@ -30,22 +30,22 @@ const ViewRole = () => {
   };
 
   function updateHandler(singleData) {
-    
-
     navigate("/roles/update", { state: singleData });
   }
 
   async function deleteHandler(singleData) {
     try {
-      console.log("The data you want to delete - ", singleData);
-      const result = await axios.delete("http://localhost:8000/deleteRoles", {
-        data: { singleData },
-      });
+      // console.log("The data you want to delete - ", singleData);
+      const result = await axios.delete(
+        `http://localhost:8000/v1/roles/${singleData.id}`,
+        {
+          headers: { Authorization: token },
+        }
+      );
 
-      if(bool){
+      if (bool) {
         setBool(false);
-      }
-      else{
+      } else {
         setBool(true);
       }
     } catch (err) {
@@ -53,10 +53,9 @@ const ViewRole = () => {
     }
   }
 
-  
   useEffect(() => {
     axiosCall();
-  },[bool]);
+  }, [bool]);
 
   const createRoleHandler = () => {
     navigate("/roles/create");
@@ -65,52 +64,65 @@ const ViewRole = () => {
   return (
     <div className="viewBody">
       <div className="homePageButtonsContainer">
-        { globalPermiArray.includes("Roles Write") && (<button onClick={createRoleHandler} className="createPageBtn">Create a role</button>)}
+        {globalPermiArray.includes("Roles Write") && (
+          <button onClick={createRoleHandler} className="createPageBtn">
+            Create a role
+          </button>
+        )}
         <br />
         <button onClick={logoutHandler} className="viewPageBtn">
           Log Out
-        </button> 
+        </button>
       </div>
       <table>
         <thead>
           <tr className="headingContainer">
             <th>Name</th>
             <th>Permissions</th>
-            { globalPermiArray.includes("Roles Update" || "Roles Delete") && (<th>Actions</th>)}
+            {globalPermiArray.includes("Roles Update" || "Roles Delete") && (
+              <th>Actions</th>
+            )}
           </tr>
         </thead>
         <tbody>
-        {rolesArray.length === 0 ? (
-          <tr>
-          <td colSpan="5">Loading...</td>
-        </tr>
-        ) : (
-         
+          {rolesArray.length === 0 ? (
+            <tr>
+              <td colSpan="5">Loading...</td>
+            </tr>
+          ) : (
             rolesArray.map((one, index) => (
               <tr key={index}>
-               
-                  {/* <p>Name : </p> */}
-                  <td>
-                    {one.name}
-                  </td>
-                  {/* <p>Permissions: </p> */}
-                  <td>
-                    {one.permissions.map((singlePermi, index) => (
-                      <span key={index}>{singlePermi} ,</span>
-                    ))}
-                  </td>
-                  <td style={{display:'flex'}}>
-                    
-                      { globalPermiArray.includes("Roles Update") && (<button className="updateBtn" onClick={() => updateHandler(one)}>Update</button>)}
-                    
-                      { globalPermiArray.includes("Roles Delete") && (<button className="updateBtn" onClick={() => deleteHandler(one)}>Delete</button>)}
-                    
-                  </td>
+                {/* <p>Name : </p> */}
+                <td>{one.name}</td>
+                {/* Need to uncomment this */}
+                <td>
+                  {one.permissions.map((singlePermi, index) => (
+                    <span key={index}>{singlePermi} ,</span>
+                  ))}
+                </td>
+                <td style={{ display: "flex" }}>
+                  {globalPermiArray.includes("Roles Update") && (
+                    <button
+                      className="updateBtn"
+                      onClick={() => updateHandler(one)}
+                    >
+                      Update
+                    </button>
+                  )}
+
+                  {globalPermiArray.includes("Roles Delete") && (
+                    <button
+                      className="updateBtn"
+                      onClick={() => deleteHandler(one)}
+                    >
+                      Delete
+                    </button>
+                  )}
+                </td>
               </tr>
             ))
           )}
-          </tbody>
-        
+        </tbody>
       </table>
     </div>
   );

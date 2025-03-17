@@ -14,7 +14,7 @@ const Wrapper = () => {
         navigate("/login");
       }
 
-      const verifyResult = await axios.post("http://localhost:8000/verify", {
+      const verifyResult = await axios.post("http://localhost:8000/v1/verify", {
         headers: { Authorization: token },
       });
       

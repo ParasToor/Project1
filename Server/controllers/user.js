@@ -1,5 +1,7 @@
 const { validationResult } = require("express-validator");
 const pool = require("../database/database");
+const User = require("../models/UserModel");
+const Role = require("../models/RoleModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -18,12 +20,14 @@ exports.loginHandler = async (req, res) => {
 
     const { email, password } = req.query;
 
+    const findUser = await User.findOne({
+      where: { email: email },
+      raw: true,
+    });
 
-    const findUser = await pool.query(
-      `SELECT * FROM users_data WHERE email = '${email}'`
-    );
+    // console.log("User found by sequelize - ", findUser);
 
-    if (findUser[0].length === 0) {
+    if (!findUser) {
       return res.status(401).json({
         success: false,
         message: "User doesn't exists",
@@ -39,7 +43,7 @@ exports.loginHandler = async (req, res) => {
       });
     }
 
-    const databasePassword = findUser[0][0].password;
+    const databasePassword = findUser.password;
 
     const compareResult = await bcrypt.compare(
       `${password}`,
@@ -62,7 +66,7 @@ exports.loginHandler = async (req, res) => {
       });
     }
 
-    const roleId = findUser[0][0].role_id;
+    const roleId = findUser.role_id;
 
     if (!roleId) {
       return res.status(400).json({
@@ -80,9 +84,16 @@ exports.loginHandler = async (req, res) => {
       });
     }
 
-    const roleResult = await pool.query(
-      `SELECT * FROM roles WHERE id=${roleId}`
-    );
+    // const roleResult = await pool.query(
+    //   `SELECT * FROM roles WHERE id=${roleId}`
+    // );
+
+    const roleResult = await Role.findOne({
+      where: { id: roleId },
+      raw: true,
+    });
+
+    // console.log("Data from roles table - ",roleResult);
 
     if (!roleResult) {
       return res.status(400).json({
@@ -101,7 +112,7 @@ exports.loginHandler = async (req, res) => {
       });
     }
 
-    const permis = roleResult[0][0].permissions;
+    const permis = roleResult.permissions;
 
     if (!permis) {
       return res.status(400).json({
@@ -120,13 +131,11 @@ exports.loginHandler = async (req, res) => {
       });
     }
 
-    const role = roleResult[0][0].name;
-
-    const user = findUser[0][0];
+    const role = roleResult.name;
 
     const payload = {
-      email: user.email,
-      id: user.id,
+      email: email,
+      id: findUser.id,
       role: role,
       roleId: roleId,
       permissions: permis,
