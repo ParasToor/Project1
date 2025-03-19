@@ -6,7 +6,7 @@ import { MyContext } from "../MyContext";
 import { useContext, useEffect, useState } from "react";
 export default function CreateUser() {
 
-  const { token } = useContext(MyContext);
+  const { token ,axiosHandler } = useContext(MyContext);
 
   const [fetchdata, setfetchdata] = useState([]);
   const {
@@ -35,25 +35,32 @@ export default function CreateUser() {
   }
 
   async function clickHandler(data) {
-    try {
-      const apiData = await axios.post(
-        "http://localhost:8000/v1/users",
-        {
-          data,
-        },
-        {
-          headers: { Authorization: token },
-        }
-      );
 
+    const response = await axiosHandler("post","users",token , data);
+    if(response !== undefined){
       navigate("/accounts");
-    } catch (err) {
-      console.log("Error from axios create User -", err);
-
-      setError("apiError", {
-        message: err.response?.data?.message || err.message,
-      });
     }
+
+
+    // try {
+    //   const apiData = await axios.post(
+    //     "http://localhost:8000/v1/users",
+    //     {
+    //       data,
+    //     },
+    //     {
+    //       headers: { Authorization: token },
+    //     }
+    //   );
+
+    //   navigate("/accounts");
+    // } catch (err) {
+    //   console.log("Error from axios create User -", err);
+
+    //   setError("apiError", {
+    //     message: err.response?.data?.message || err.message,
+    //   });
+    // }
   }
 
   useEffect(() => {

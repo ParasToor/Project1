@@ -7,7 +7,8 @@ import { MyContext } from "../MyContext";
 const ViewUser = () => {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
-  const { logout, globalPermiArray, token } = useContext(MyContext);
+  const { logout, globalPermiArray, token, axiosHandler } =
+    useContext(MyContext);
 
   const createPageHandler = () => {
     navigate("/accounts/create");
@@ -19,17 +20,23 @@ const ViewUser = () => {
   };
 
   const fetchUsers = async () => {
-    try {
-      const apiData = await axios.get("http://localhost:8000/v1/users", {
-        headers: { Authorization: token },
-      });
+    const response = await axiosHandler("get", "users", token);
 
-      console.log("apiData.data.sqlData - ", apiData.data.sqlData);
-
-      setUsers(apiData.data.sqlData);
-    } catch (err) {
-      console.log("Error from view axios call - ", err);
+    if (response !== undefined) {
+      setUsers(response.data.sqlData);
     }
+
+    // try {
+    //   const apiData = await axios.get("http://localhost:8000/v1/users", {
+    //     headers: { Authorization: token },
+    //   });
+
+    //   console.log("apiData.data.sqlData - ", apiData.data.sqlData);
+
+    //   setUsers(apiData.data.sqlData);
+    // } catch (err) {
+    //   console.log("Error from view axios call - ", err);
+    // }
   };
 
   useEffect(() => {
@@ -46,14 +53,27 @@ const ViewUser = () => {
       "Are you sure you want to delete this user?"
     );
     if (confirmDelete) {
-      try {
-        await axios.delete(`http://localhost:8000/v1/users/${userId}`,{
-          headers: { Authorization: token },
-        });
+      
+      const response = await axiosHandler(
+        "delete",
+        "users",
+        token,
+        null,
+        userId
+      );
+
+      if (response !== undefined) {
         setUsers(users.filter((user) => user.id !== userId));
-      } catch (err) {
-        console.log("Error from delete axios call - ", err);
       }
+
+      // try {
+      //   await axios.delete(`http://localhost:8000/v1/users/${userId}`,{
+      //     headers: { Authorization: token },
+      //   });
+      //   setUsers(users.filter((user) => user.id !== userId));
+      // } catch (err) {
+      //   console.log("Error from delete axios call - ", err);
+      // }
     }
   };
 

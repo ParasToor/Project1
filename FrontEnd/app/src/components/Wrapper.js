@@ -25,7 +25,7 @@ const Wrapper = () => {
 
   useEffect(() => {
     verifyFunction();
-  }, []);
+  }, [token]);
 
   return (
     <div>

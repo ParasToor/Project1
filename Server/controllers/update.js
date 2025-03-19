@@ -3,11 +3,12 @@ const Config = require("../models/ConfigModel");
 
 exports.updateHandler = async (req, res) => {
   try {
-    const data = req.body.data;
+    // console.log("req.body - ",req.body);
+    const data = req.body;
     const id = req.body.id;
 
-    console.log("update data - ", data);
-    console.log("update data id - ", id);
+    // console.log("update data - ", data);
+    // console.log("update data id - ", id);
 
     const [updatedRows] = await Config.update(data, {
       where: { id: id },

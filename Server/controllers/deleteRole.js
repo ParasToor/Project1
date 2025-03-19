@@ -3,7 +3,7 @@ const Role = require("../models/RoleModel");
 
 exports.deleteRoleHandler = async (req, res) => {
   try {
-    const id = req.params.id;
+    const id = req.query.id;
     // console.log("Data from front end - ", data);
     // console.log("id from front end - ", id);
 

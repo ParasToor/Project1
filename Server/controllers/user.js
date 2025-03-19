@@ -143,6 +143,11 @@ exports.loginHandler = async (req, res) => {
 
     let token = jwt.sign(payload, process.env.JWT_KEY);
 
+    const tokenUpdation = await User.update(
+      { token: token },
+      { where: { email: email } }
+    );
+    
     res.status(200).json({
       success: true,
       jwtToken: token,

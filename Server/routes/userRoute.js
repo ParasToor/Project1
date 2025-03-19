@@ -11,8 +11,7 @@ const { viewRoleHandler } = require("../controllers/viewRole");
 const { updateRoleHandler } = require("../controllers/updateRole");
 const { deleteRoleHandler } = require("../controllers/deleteRole");
 const { getPermiHandler } = require("../controllers/getPermi");
-const { verifyMiddleware } = require("../controllers/verifyMiddleware");
-
+// const { verifyMiddleware } = require("../middlewares/verifyMiddleware");
 
 //----------------------------Aman--------------------
 // const { fetchroleHandler }  = require("../controllers/fetchroleHandler");
@@ -26,6 +25,7 @@ const { viewUserHandler } = require("../controllers/viewUserHandler");
 const { updateuser } = require("../controllers/updateUserHandler");
 const { deleteuser } = require("../controllers/deleteUserHandler");
 const { deleteConfigHandler } = require("../controllers/deleteConfig");
+const { verifyMiddleware } = require("../middlewares/verifyMiddleware");
 
 var loginValidate = [
   check("email").notEmpty().withMessage("Email is required"),
@@ -49,25 +49,24 @@ var loginValidate = [
 // post krna hai
 router.get("/login", loginValidate, loginHandler);
 
-router.get("/configs",verifyMiddleware,viewHandler);
-router.get("/roles",verifyMiddleware, viewRoleHandler);
-router.get('/users',verifyMiddleware,viewUserHandler);
+router.get("/configs", verifyMiddleware("Config Read"), viewHandler);
+router.get("/roles", verifyMiddleware("Roles Read"), viewRoleHandler);
+router.get("/users", verifyMiddleware("Account Read"), viewUserHandler);
 
-router.post("/configs",verifyMiddleware, createHandler);
-router.post("/roles",verifyMiddleware, createRoleHandler);
-router.post('/users',verifyMiddleware,createuserHandler);
+router.post("/configs", verifyMiddleware("Config Write"), createHandler);
+router.post("/roles", verifyMiddleware("Roles Write"), createRoleHandler);
+router.post("/users", verifyMiddleware("Account Write"), createuserHandler);
 
-router.patch("/configs",verifyMiddleware ,updateHandler);
-router.patch("/roles",verifyMiddleware, updateRoleHandler);
-router.patch('/users',verifyMiddleware,updateuser);
+router.patch("/configs", verifyMiddleware("Config Update"), updateHandler);
+router.patch("/roles", verifyMiddleware("Roles Update"), updateRoleHandler);
+router.patch("/users", verifyMiddleware("Account Update"), updateuser);
 
-router.delete("/configs/:id",verifyMiddleware, deleteConfigHandler);
-router.delete("/roles/:id",verifyMiddleware, deleteRoleHandler);
-router.delete('/users/:id',verifyMiddleware,deleteuser);
+router.delete("/configs", verifyMiddleware("Config Delete"), deleteConfigHandler);
+router.delete("/roles", verifyMiddleware("Roles Delete"), deleteRoleHandler);
+router.delete("/users", verifyMiddleware("Account Delete"), deleteuser);
 
-router.get("/fetchrole",fetchroleHandler);
+router.get("/fetchrole", fetchroleHandler);
 router.post("/verify", verifyHandler);
 router.post("/permis", getPermiHandler);
-
 
 module.exports = router;

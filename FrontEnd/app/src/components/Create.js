@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { MyContext } from "../MyContext";
 
 const Create = () => {
-  const { token } = useContext(MyContext);
+  const { token , axiosHandler} = useContext(MyContext);
 
   const navigate = useNavigate();
 
@@ -34,23 +34,30 @@ const Create = () => {
   ];
 
   async function clickHandler(data) {
-    try {
-      const apiData = await axios.post(
-        "http://localhost:8000/v1/configs",
-        {
-          data,
-        },
-        {
-          headers: { Authorization: token },
-        }
-      );
 
-      console.log("data from axios create call - ", apiData);
-
+    const response = await axiosHandler("post","configs",token , data);
+    if(response !== undefined){
       navigate("/");
-    } catch (err) {
-      console.log("Error fropm axios create - ", err);
     }
+
+
+    // try {
+    //   const apiData = await axios.post(
+    //     "http://localhost:8000/v1/configs",
+    //     {
+    //       data,
+    //     },
+    //     {
+    //       headers: { Authorization: token },
+    //     }
+    //   );
+
+    //   console.log("data from axios create call - ", apiData);
+
+    //   navigate("/");
+    // } catch (err) {
+    //   console.log("Error fropm axios create - ", err);
+    // }
   }
 
   const { control, handleSubmit, setError } = useForm();

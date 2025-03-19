@@ -3,7 +3,7 @@ const User = require("../models/UserModel");
 
 exports.deleteuser = async (req, res) => {
   try {
-    const userId = req.params.id;
+    const userId = req.query.id;
 
     // Check if user ID is provided
     if (!userId) {

@@ -4,11 +4,13 @@ const User = require("../models/UserModel");
 
 exports.updateuser = async (req, res) => {
   try {
-    console.log("reqbodydat", req.body.data, req.body.id);
 
-    const u_email = req.body.data.email;
-    const u_password = req.body.data.newPassword;
-    const u_role = Number(req.body.data.role);
+    // console.log("reqbodydat", req.body.data , req.body.id);
+    console.log("req.body  - ", req.body );
+
+    const u_email = req.body.email;
+    const u_password = req.body.newPassword;
+    const u_role = Number(req.body.role);
     const u_id = Number(req.body.id);
 
     // const dupliemail = await pool.query(

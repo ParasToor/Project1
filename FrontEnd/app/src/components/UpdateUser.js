@@ -9,7 +9,7 @@ import "./Update.css";
 const UpdateUser = () => {
   const [fetchdata, setfetchdata] = useState([]);
   const navigate = useNavigate();
-  const { login, token } = useContext(MyContext);
+  const { login, token, axiosHandler } = useContext(MyContext);
   // const { id } = useParams();
 
   const location = useLocation();
@@ -36,34 +36,43 @@ const UpdateUser = () => {
   const userFields = ["email", "newPassword", "role"];
 
   async function clickHandler(data) {
-    // console.log("click val");
-    try {
-      //   console.log("data while clicking", data, id);
-      const apiData = await axios.patch(
-        "http://localhost:8000/v1/users",
-        {
-          id,
-          data,
-        },
-        {
-          headers: { Authorization: token },
-        }
-      );
-      console.log("apidata");
-      console.log("data from axios update call - ", apiData);
 
+    data.id = id;
+
+    const response = await axiosHandler("patch", "users", token, data);
+
+    if (response !== undefined) {
       navigate("/accounts");
-    } catch (err) {
-      console.log("Error from axios create user", err);
-      if (err.response || err.response.data || err.response.data.errors) {
-        const backendErrors = err.response.data.message;
-        console.log("error for the prining executed", backendErrors);
-
-        setError("apiError", {
-          message: backendErrors,
-        });
-      }
     }
+
+    // // console.log("click val");
+    // try {
+    //   //   console.log("data while clicking", data, id);
+    //   const apiData = await axios.patch(
+    //     "http://localhost:8000/v1/users",
+    //     {
+    //       id,
+    //       data,
+    //     },
+    //     {
+    //       headers: { Authorization: token },
+    //     }
+    //   );
+    //   console.log("apidata");
+    //   console.log("data from axios update call - ", apiData);
+
+    //   navigate("/accounts");
+    // } catch (err) {
+    //   console.log("Error from axios create user", err);
+    //   if (err.response || err.response.data || err.response.data.errors) {
+    //     const backendErrors = err.response.data.message;
+    //     console.log("error for the prining executed", backendErrors);
+
+    //     setError("apiError", {
+    //       message: backendErrors,
+    //     });
+    //   }
+    // }
   }
 
   useEffect(() => {

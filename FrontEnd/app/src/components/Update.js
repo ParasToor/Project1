@@ -6,7 +6,7 @@ import "./Update.css";
 import { MyContext } from "../MyContext";
 
 const Update = () => {
-  const { token } = useContext(MyContext);
+  const { token ,axiosHandler } = useContext(MyContext);
 
   const navigate = useNavigate();
 
@@ -38,26 +38,36 @@ const Update = () => {
   ];
 
   async function clickHandler(data) {
-    try {
-      console.log(data);
 
-      const apiData = await axios.patch(
-        "http://localhost:8000/v1/configs",
-        {
-          id,
-          data,
-        },
-        {
-          headers: { Authorization: token },
-        }
-      );
+    data.id = id;
 
-      console.log("data from axios update call - ", apiData);
+    const response = await axiosHandler("patch","configs",token , data);
 
+    if(response !== undefined){
       navigate("/");
-    } catch (err) {
-      console.log("Error in update fropm axios Patch - ", err);
     }
+
+
+    // try {
+    //   console.log(data);
+
+    //   const apiData = await axios.patch(
+    //     "http://localhost:8000/v1/configs",
+    //     {
+    //       id,
+    //       data,
+    //     },
+    //     {
+    //       headers: { Authorization: token },
+    //     }
+    //   );
+
+    //   console.log("data from axios update call - ", apiData);
+
+    //   navigate("/");
+    // } catch (err) {
+    //   console.log("Error in update fropm axios Patch - ", err);
+    // }
   }
 
   const {

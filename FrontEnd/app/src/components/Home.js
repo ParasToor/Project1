@@ -5,8 +5,10 @@ import { MyContext } from "../MyContext";
 import axios from "axios";
 
 const Home = () => {
+
   const navigate = useNavigate();
-  const { token, globalPermiArray, setGlobalPermiArray } =
+
+  const { token, globalPermiArray, setGlobalPermiArray  } =
     useContext(MyContext);
 
   async function permiFunction() {
@@ -20,6 +22,9 @@ const Home = () => {
         );
         setGlobalPermiArray(permisResult.data.permiArray);
       }
+
+      // if()
+
     } catch (err) {
       console.log("Error from checking the permissions");
       console.log(err);

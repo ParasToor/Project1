@@ -7,7 +7,7 @@ import { MyContext } from "../MyContext";
 import "./Form.css";
 
 const UpdateRole = () => {
-  const { token } = useContext(MyContext);
+  const { token , axiosHandler } = useContext(MyContext);
 
   const navigate = useNavigate();
 
@@ -26,23 +26,33 @@ const UpdateRole = () => {
     },
   });
 
-  const doUpdate = async (newData) => {
-    try {
-      const updateRes = await axios.patch(
-        "http://localhost:8000/v1/roles",
-        {
-          id: prevData.id,
-          newData,
-        },
-        {
-          headers: { Authorization: token },
-        }
-      );
+  const doUpdate = async (data) => {
 
+    data.id = prevData.id;
+
+    const response = await axiosHandler("patch","roles",token , data);
+
+    if(response !== undefined){
       navigate("/roles");
-    } catch (err) {
-      console.log("Error from backend on updating - ", err);
     }
+
+
+    // try {
+    //   const updateRes = await axios.patch(
+    //     "http://localhost:8000/v1/roles",
+    //     {
+    //       id: prevData.id,
+    //       newData,
+    //     },
+    //     {
+    //       headers: { Authorization: token },
+    //     }
+    //   );
+
+    //   navigate("/roles");
+    // } catch (err) {
+    //   console.log("Error from backend on updating - ", err);
+    // }
   };
 
   const options = [

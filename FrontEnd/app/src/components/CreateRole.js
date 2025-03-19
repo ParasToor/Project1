@@ -7,7 +7,7 @@ import { MyContext } from "../MyContext";
 import "./Form.css";
 
 const CreateRole = () => {
-  const { token } = useContext(MyContext);
+  const { token , axiosHandler } = useContext(MyContext);
 
   // const {control , handleSubmit , setError,
   //     formSta
@@ -23,28 +23,40 @@ const CreateRole = () => {
   } = useForm();
 
   const clickHandler = async (data) => {
-    try {
-      const result = await axios.post("http://localhost:8000/v1/roles", {
-        data,
-      },{
-        headers: { Authorization: token },
-      });
 
-      console.log("Result from backEnd to create role - ", result);
-
+    const response = await axiosHandler("post","roles",token , data);
+    if(response !== undefined){
       navigate("/roles");
-    } catch (err) {
-      console.log("Error from backEnd while creating Role - ", err);
-
-      const errorArray = err.response.data.errors;
-
-      errorArray.map((err) => {
-        setError(err.path, {
-          type: "manual",
-          message: err.msg,
-        });
-      });
     }
+
+
+
+    // try {
+    //   const result = await axios.post(
+    //     "http://localhost:8000/v1/roles",
+    //     {
+    //       data,
+    //     },
+    //     {
+    //       headers: { Authorization: token },
+    //     }
+    //   );
+
+    //   console.log("Result from backEnd to create role - ", result);
+
+    //   navigate("/roles");
+    // } catch (err) {
+    //   console.log("Error from backEnd while creating Role - ", err);
+
+    //   const errorArray = err.response.data.errors;
+
+    //   errorArray.map((err) => {
+    //     setError(err.path, {
+    //       type: "manual",
+    //       message: err.msg,
+    //     });
+    //   });
+    // }
   };
 
   const options = [

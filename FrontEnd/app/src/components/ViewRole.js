@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { MyContext } from "../MyContext";
 import "./View.css";
 const ViewRole = () => {
-  const { logout, token, globalPermiArray } = useContext(MyContext);
+  const { logout, token, globalPermiArray, axiosHandler } =
+    useContext(MyContext);
   const [rolesArray, setRolesArray] = useState([]);
   const [bool, setBool] = useState(true);
 
@@ -15,18 +16,24 @@ const ViewRole = () => {
     navigate("/login");
   };
 
-  const axiosCall = async (req, res) => {
-    try {
-      const apiData = await axios.get("http://localhost:8000/v1/roles", {
-        headers: { Authorization: token },
-      });
+  const axiosCall = async () => {
+    const response = await axiosHandler("get", "roles", token);
 
-      // console.log(apiData.data.data);
-
-      setRolesArray(apiData.data.data);
-    } catch (err) {
-      console.log("Error from back end on view roles - ", err);
+    if (response !== undefined) {
+      setRolesArray(response.data.data);
     }
+
+    // try {
+    //   const apiData = await axios.get("http://localhost:8000/v1/roles", {
+    //     headers: { Authorization: token },
+    //   });
+
+    //   // console.log(apiData.data.data);
+
+    //   setRolesArray(apiData.data.data);
+    // } catch (err) {
+    //   console.log("Error from back end on view roles - ", err);
+    // }
   };
 
   function updateHandler(singleData) {
@@ -34,23 +41,37 @@ const ViewRole = () => {
   }
 
   async function deleteHandler(singleData) {
-    try {
-      // console.log("The data you want to delete - ", singleData);
-      const result = await axios.delete(
-        `http://localhost:8000/v1/roles/${singleData.id}`,
-        {
-          headers: { Authorization: token },
-        }
-      );
+    const response = await axiosHandler(
+      "delete",
+      "roles",
+      token,
+      null,
+      singleData.id
+    );
 
-      if (bool) {
-        setBool(false);
-      } else {
-        setBool(true);
-      }
-    } catch (err) {
-      console.log("error deleting one role - ", err);
+    if (bool) {
+      setBool(false);
+    } else {
+      setBool(true);
     }
+
+    // try {
+    //   // console.log("The data you want to delete - ", singleData);
+    //   const result = await axios.delete(
+    //     `http://localhost:8000/v1/roles/${singleData.id}`,
+    //     {
+    //       headers: { Authorization: token },
+    //     }
+    //   );
+
+    // if (bool) {
+    //   setBool(false);
+    // } else {
+    //   setBool(true);
+    // }
+    // } catch (err) {
+    //   console.log("error deleting one role - ", err);
+    // }
   }
 
   useEffect(() => {

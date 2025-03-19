@@ -3,9 +3,9 @@ const Config = require("../models/ConfigModel");
 
 exports.deleteConfigHandler = async (req, res) => {
   try {
-    // console.log("req.body - ", req.body);
+    // console.log("req.params - ", req);
 
-    const id = req.params.id;
+    const id = req.query.id;
 
     // const query = await pool.query("DELETE FROM config WHERE id = ?",[id]);
 

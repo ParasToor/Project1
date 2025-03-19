@@ -10,7 +10,8 @@ const View = () => {
 
   const [configBool, setConfigBool] = useState(true);
 
-  const { logout, globalPermiArray, token } = useContext(MyContext);
+  const { logout, globalPermiArray, token, axiosHandler } =
+    useContext(MyContext);
 
   const createPageHandler = () => {
     navigate("/config/create");
@@ -22,39 +23,48 @@ const View = () => {
   };
 
   const axiosCall = async () => {
-    try {
-      const apiData = await axios.get("http://localhost:8000/v1/configs", {
-        headers: { Authorization: token },
-      });
+    const response = await axiosHandler("get", "configs", token);
 
-      console.log("apiData.data.sqlData - ", apiData.data.sqlData);
-
-      setArray(apiData.data.sqlData);
-
-    } catch (err) {
-      console.log("Error while gettiung permissions - ", err);
+    if (response !== undefined) {
+      setArray(response.data.sqlData);
     }
   };
 
   async function onDelete(singleData) {
-    try {
-      console.log(singleData);
+    console.log("Del buttonm clicked");
 
-      const delResult = await axios.delete(
-        `http://localhost:8000/v1/configs/${singleData.id}`,
-        {
-          headers: { Authorization: token },
-        }
-      );
+    const response = await axiosHandler(
+      "delete",
+      "configs",
+      token,
+      null,
+      singleData.id
+    );
 
-      if (configBool) {
-        setConfigBool(false);
-      } else {
-        setConfigBool(true);
-      }
-    } catch (err) {
-      console.log("Error in on Delete rfom backend - ", err);
+    if (configBool) {
+      setConfigBool(false);
+    } else {
+      setConfigBool(true);
     }
+
+    // try {
+    //   console.log(singleData);
+
+    //   const delResult = await axios.delete(
+    //     `http://localhost:8000/v1/configs/${singleData.id}`,
+    //     {
+    //       headers: { Authorization: token },
+    //     }
+    //   );
+
+    // if (configBool) {
+    //   setConfigBool(false);
+    // } else {
+    //   setConfigBool(true);
+    // }
+    // } catch (err) {
+    //   console.log("Error in on Delete rfom backend - ", err);
+    // }
   }
 
   useEffect(() => {
@@ -170,7 +180,7 @@ const View = () => {
                       <p>{singleData.db_password}</p>
                     </td>
                     <td>
-                      <p>{singleData.active ? ("Enabled") : ("Disabled") }</p>
+                      <p>{singleData.active ? "Enabled" : "Disabled"}</p>
                     </td>
                     {globalPermiArray.includes(
                       "Config Update" || "Config Delete"
